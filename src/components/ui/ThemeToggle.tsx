@@ -4,29 +4,29 @@ import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 export function ThemeToggle() {
-  const [isLight, setIsLight] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     // Check for saved preference or system preference
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
-      setIsLight(true);
-      document.documentElement.classList.add('light');
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
     }
   }, []);
 
   const toggleTheme = () => {
-    const newIsLight = !isLight;
-    setIsLight(newIsLight);
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
 
-    if (newIsLight) {
-      document.documentElement.classList.add('light');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.remove('light');
+    if (newIsDark) {
+      document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   };
 
@@ -37,9 +37,9 @@ export function ThemeToggle() {
       className="p-2 rounded-lg bg-surface-elevated border border-border-subtle
         text-text-secondary hover:text-text-primary hover:border-border
         transition-all duration-200"
-      title={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isLight ? <Moon size={18} /> : <Sun size={18} />}
+      {isDark ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
 }

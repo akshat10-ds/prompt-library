@@ -29,12 +29,10 @@ export function usePromptFilters() {
   const counts = useMemo(() => {
     const result: Record<CategoryId | 'all', number> = {
       all: prompts.length,
-      coding: 0,
-      writing: 0,
-      analysis: 0,
-      creative: 0,
-      business: 0,
-      education: 0,
+      marketing: 0,
+      sales: 0,
+      'product-design': 0,
+      engineering: 0,
     };
 
     prompts.forEach((prompt) => {

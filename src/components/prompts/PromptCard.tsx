@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Prompt } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
@@ -24,17 +25,22 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
         <CopyButton content={prompt.content} />
       </div>
 
-      <h3 className="font-serif text-lg text-text-primary mb-2">
-        {prompt.title}
-      </h3>
+      <Link href={`/prompt/${prompt.id}`} className="group">
+        <h3 className="font-serif text-lg text-text-primary mb-2 group-hover:text-accent transition-colors">
+          {prompt.title}
+        </h3>
+      </Link>
 
       <p className="text-sm text-text-secondary mb-4 line-clamp-2">
         {prompt.description}
       </p>
 
-      <div className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow">
+      <Link
+        href={`/prompt/${prompt.id}`}
+        className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow hover:border-accent transition-colors cursor-pointer"
+      >
         {contentPreview}
-      </div>
+      </Link>
 
       <div className="flex flex-wrap gap-2 mt-auto">
         {prompt.tags.map((tag) => (

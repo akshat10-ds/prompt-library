@@ -2,21 +2,17 @@
 
 import { CategoryId, categories } from '@/data';
 import {
+  Megaphone,
+  TrendingUp,
+  Palette,
   Code2,
-  PenTool,
-  BarChart3,
-  Sparkles,
-  Briefcase,
-  GraduationCap,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
+  Megaphone,
+  TrendingUp,
+  Palette,
   Code2,
-  PenTool,
-  BarChart3,
-  Sparkles,
-  Briefcase,
-  GraduationCap,
 };
 
 interface CategoryBadgeProps {

@@ -2,39 +2,27 @@ import { Category } from './types';
 
 export const categories: Category[] = [
   {
-    id: 'coding',
-    name: 'Coding',
-    description: 'Programming and development prompts',
+    id: 'marketing',
+    name: 'Marketing',
+    description: 'Content, campaigns, and brand strategy',
+    icon: 'Megaphone',
+  },
+  {
+    id: 'sales',
+    name: 'Sales',
+    description: 'Outreach, proposals, and customer engagement',
+    icon: 'TrendingUp',
+  },
+  {
+    id: 'product-design',
+    name: 'Product Design',
+    description: 'UX research, design systems, and prototyping',
+    icon: 'Palette',
+  },
+  {
+    id: 'engineering',
+    name: 'Engineering',
+    description: 'Development, code review, and technical docs',
     icon: 'Code2',
-  },
-  {
-    id: 'writing',
-    name: 'Writing',
-    description: 'Content creation and editing',
-    icon: 'PenTool',
-  },
-  {
-    id: 'analysis',
-    name: 'Analysis',
-    description: 'Data analysis and research',
-    icon: 'BarChart3',
-  },
-  {
-    id: 'creative',
-    name: 'Creative',
-    description: 'Ideation and brainstorming',
-    icon: 'Sparkles',
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    description: 'Professional and business tasks',
-    icon: 'Briefcase',
-  },
-  {
-    id: 'education',
-    name: 'Education',
-    description: 'Learning and teaching',
-    icon: 'GraduationCap',
   },
 ];

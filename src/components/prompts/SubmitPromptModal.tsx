@@ -23,6 +23,8 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
     tags: '',
     author: '',
     email: '',
+    exampleOutput: '',
+    urls: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,6 +41,10 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
           tags: formData.tags
             .split(',')
             .map((tag) => tag.trim().toLowerCase())
+            .filter(Boolean),
+          urls: formData.urls
+            .split('\n')
+            .map((url) => url.trim())
             .filter(Boolean),
         }),
       });
@@ -59,6 +65,8 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
         tags: '',
         author: '',
         email: '',
+        exampleOutput: '',
+        urls: '',
       });
     } catch (error) {
       setFormState('error');
@@ -233,6 +241,34 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
                       onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                       className="w-full px-4 py-2.5 bg-background border border-border-subtle rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-text-secondary transition-colors"
                       placeholder="e.g., productivity, automation, analysis"
+                    />
+                  </div>
+
+                  {/* Example Output */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                      Example Output (optional)
+                    </label>
+                    <textarea
+                      rows={5}
+                      value={formData.exampleOutput}
+                      onChange={(e) => setFormData({ ...formData, exampleOutput: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-background border border-border-subtle rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-text-secondary transition-colors font-mono text-sm resize-none"
+                      placeholder="Show an example of what the AI might output when using this prompt"
+                    />
+                  </div>
+
+                  {/* Related URLs */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                      Related URLs (one per line, optional)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={formData.urls}
+                      onChange={(e) => setFormData({ ...formData, urls: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-background border border-border-subtle rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-text-secondary transition-colors text-sm resize-none"
+                      placeholder="https://example.com/resource&#10;https://docs.example.com/guide"
                     />
                   </div>
 

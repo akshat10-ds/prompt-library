@@ -1,13 +1,15 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { prompts, categories } from '@/data';
+import { prompts } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
 import { VoteButtons } from '@/components/ui/VoteButtons';
+import { Accordion } from '@/components/ui/Accordion';
 import { CopyButton } from '@/components/prompts/CopyButton';
+import { Comments } from '@/components/prompts/Comments';
 import { useVoteContext } from '@/contexts/VoteContext';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 export default function PromptDetailPage() {
   const params = useParams();
@@ -81,15 +83,27 @@ export default function PromptDetailPage() {
           )}
 
           {/* Description */}
-          <p className="text-lg text-text-secondary mb-8">
+          <p className="text-lg text-text-secondary mb-6">
             {prompt.description}
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-6">
             {prompt.tags.map((tag) => (
               <Tag key={tag} tag={tag} />
             ))}
+          </div>
+
+          {/* Usage Tips - Accordion (moved above content) */}
+          <div className="mb-8">
+            <Accordion title="How to use this prompt" defaultOpen={false}>
+              <ol className="list-decimal list-inside space-y-2 text-text-secondary">
+                <li>Copy the prompt using the button above</li>
+                <li>Replace the bracketed placeholders with your specific details</li>
+                <li>Paste into your AI assistant of choice</li>
+                <li>Iterate and refine based on the response</li>
+              </ol>
+            </Accordion>
           </div>
 
           {/* Prompt Content */}
@@ -102,18 +116,43 @@ export default function PromptDetailPage() {
             </div>
           </div>
 
-          {/* Usage Tips */}
-          <div className="mt-8 p-6 bg-surface rounded-xl border border-border-subtle">
-            <h3 className="font-serif text-lg text-text-primary mb-3">
-              How to use this prompt
-            </h3>
-            <ol className="list-decimal list-inside space-y-2 text-text-secondary">
-              <li>Copy the prompt using the button above</li>
-              <li>Replace the bracketed placeholders with your specific details</li>
-              <li>Paste into your AI assistant of choice</li>
-              <li>Iterate and refine based on the response</li>
-            </ol>
-          </div>
+          {/* Example Output (if available) */}
+          {prompt.exampleOutput && (
+            <div className="mt-8">
+              <Accordion title="Example Output" defaultOpen={false}>
+                <div className="prompt-content text-sm whitespace-pre-wrap bg-background/50">
+                  {prompt.exampleOutput}
+                </div>
+              </Accordion>
+            </div>
+          )}
+
+          {/* Related URLs (if available) */}
+          {prompt.urls && prompt.urls.length > 0 && (
+            <div className="mt-8 p-6 bg-surface rounded-xl border border-border-subtle">
+              <h3 className="font-serif text-lg text-text-primary mb-3">
+                Related Resources
+              </h3>
+              <ul className="space-y-2">
+                {prompt.urls.map((url, index) => (
+                  <li key={index}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
+                    >
+                      <ExternalLink size={16} />
+                      <span className="underline">{url}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Comments Section */}
+          <Comments promptId={prompt.id} />
         </article>
       </main>
 

@@ -17,6 +17,8 @@ export interface PromptSubmission {
   tags: string[];
   author: string;
   email: string;
+  exampleOutput?: string;
+  urls?: string[];
   status: 'pending' | 'approved' | 'rejected';
   submittedAt: string;
 }
@@ -44,7 +46,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, content, category, tags, author, email } = body;
+    const { title, description, content, category, tags, author, email, exampleOutput, urls } = body;
 
     // Validate required fields
     if (!title || !description || !content || !category || !author || !email) {
@@ -55,10 +57,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate category
-    const validCategories: CategoryId[] = ['marketing', 'sales', 'design', 'engineering'];
+    const validCategories: CategoryId[] = ['marketing', 'sales', 'product-design', 'engineering'];
     if (!validCategories.includes(category)) {
       return NextResponse.json(
-        { error: 'Invalid category. Must be one of: marketing, sales, design, engineering' },
+        { error: 'Invalid category. Must be one of: marketing, sales, product-design, engineering' },
         { status: 400 }
       );
     }
@@ -75,6 +77,8 @@ export async function POST(request: NextRequest) {
       tags: tags || [],
       author,
       email,
+      exampleOutput: exampleOutput || undefined,
+      urls: urls && urls.length > 0 ? urls : undefined,
       status: 'pending',
       submittedAt: new Date().toISOString(),
     };

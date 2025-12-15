@@ -6,6 +6,9 @@ export const prompts: Prompt[] = [
     id: 'marketing-campaign-brief',
     title: 'Campaign Brief Generator',
     description: 'Create comprehensive marketing campaign briefs with clear objectives and messaging.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'documentation',
+    difficulty: 'intermediate',
     content: `Create a marketing campaign brief for the following:
 
 **Campaign Name:** [Campaign name]
@@ -51,11 +54,15 @@ Please generate a brief that includes:
     category: 'marketing',
     tags: ['campaign', 'strategy', 'planning', 'brief'],
     author: 'Sarah Chen',
+    createdAt: '2024-11-15',
   },
   {
     id: 'marketing-social-content',
     title: 'Social Media Content Creator',
     description: 'Generate engaging social media posts optimized for each platform.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'other',
+    difficulty: 'beginner',
     content: `Create social media content for the following:
 
 **Topic/Announcement:** [What you want to communicate]
@@ -91,11 +98,15 @@ Please generate:
     category: 'marketing',
     tags: ['social-media', 'content', 'copywriting', 'engagement'],
     author: 'Marcus Johnson',
+    createdAt: '2024-11-20',
   },
   {
     id: 'marketing-email-sequence',
     title: 'Email Nurture Sequence',
     description: 'Design automated email sequences that convert leads into customers.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'email',
+    difficulty: 'intermediate',
     content: `Design an email nurture sequence for:
 
 **Sequence Goal:** [Welcome/Onboarding/Re-engagement/Sales]
@@ -126,11 +137,15 @@ Also include:
 - Exit criteria`,
     category: 'marketing',
     tags: ['email', 'automation', 'nurture', 'conversion'],
+    createdAt: '2024-10-05',
   },
   {
     id: 'marketing-competitor-analysis',
     title: 'Competitor Analysis Framework',
     description: 'Analyze competitors to identify opportunities and differentiation strategies.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'analysis',
+    difficulty: 'advanced',
     content: `Conduct a competitor analysis for:
 
 **Your Company/Product:** [Your offering]
@@ -174,6 +189,7 @@ Please provide analysis on:
    - Positioning recommendations`,
     category: 'marketing',
     tags: ['competitor', 'analysis', 'strategy', 'research'],
+    createdAt: '2024-09-12',
   },
 
   // Sales Prompts
@@ -181,6 +197,9 @@ Please provide analysis on:
     id: 'sales-cold-outreach',
     title: 'Cold Outreach Email Generator',
     description: 'Craft personalized cold emails that get responses and book meetings.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'email',
+    difficulty: 'beginner',
     content: `Create a cold outreach email for:
 
 **Prospect Info:**
@@ -227,11 +246,15 @@ Please generate:
     category: 'sales',
     tags: ['outreach', 'email', 'prospecting', 'cold-email'],
     author: 'Alex Rivera',
+    createdAt: '2024-12-01',
   },
   {
     id: 'sales-discovery-questions',
     title: 'Discovery Call Question Bank',
     description: 'Prepare effective discovery questions to understand prospect needs.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'checklist',
+    difficulty: 'beginner',
     content: `Generate discovery questions for:
 
 **Product/Service:** [What you're selling]
@@ -275,11 +298,15 @@ Please provide questions organized by:
 **Bonus:** Red flag questions to identify poor-fit prospects`,
     category: 'sales',
     tags: ['discovery', 'questions', 'qualification', 'calls'],
+    createdAt: '2024-11-28',
   },
   {
     id: 'sales-proposal-template',
     title: 'Sales Proposal Builder',
     description: 'Create compelling proposals that address client needs and close deals.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'documentation',
+    difficulty: 'intermediate',
     content: `Create a sales proposal for:
 
 **Client:** [Company name]
@@ -332,11 +359,15 @@ Generate a proposal with:
 - Contact information`,
     category: 'sales',
     tags: ['proposal', 'closing', 'deals', 'presentation'],
+    createdAt: '2024-10-22',
   },
   {
     id: 'sales-objection-handling',
     title: 'Objection Response Library',
     description: 'Prepare responses to common sales objections with proven frameworks.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'other',
+    difficulty: 'intermediate',
     content: `Create objection handling responses for:
 
 **Product/Service:** [What you're selling]
@@ -379,6 +410,7 @@ For each objection, provide:
 - Advance: Move conversation forward`,
     category: 'sales',
     tags: ['objections', 'negotiation', 'closing', 'responses'],
+    createdAt: '2024-08-30',
   },
 
   // Product Design Prompts
@@ -386,6 +418,9 @@ For each objection, provide:
     id: 'design-user-research-plan',
     title: 'User Research Plan',
     description: 'Plan comprehensive user research studies to uncover insights.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'documentation',
+    difficulty: 'intermediate',
     content: `Create a user research plan for:
 
 **Project/Feature:** [What you're researching]
@@ -439,11 +474,15 @@ Please generate:
     category: 'product-design',
     tags: ['research', 'user-research', 'planning', 'methodology'],
     author: 'Emma Liu',
+    createdAt: '2024-11-05',
   },
   {
     id: 'design-ux-audit',
     title: 'UX Audit Framework',
     description: 'Conduct thorough UX audits to identify usability issues and opportunities.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'checklist',
+    difficulty: 'advanced',
     content: `Conduct a UX audit for:
 
 **Product/Feature:** [What you're auditing]
@@ -500,11 +539,15 @@ Please evaluate against:
 - Quick wins vs. long-term improvements`,
     category: 'product-design',
     tags: ['ux-audit', 'usability', 'heuristics', 'accessibility'],
+    createdAt: '2024-09-25',
   },
   {
     id: 'design-design-system',
     title: 'Design System Documentation',
     description: 'Document design system components with clear usage guidelines.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'documentation',
+    difficulty: 'intermediate',
     content: `Document a design system component:
 
 **Component Name:** [e.g., Button, Modal, Card]
@@ -564,11 +607,15 @@ Please create documentation including:
 - Common pitfalls`,
     category: 'product-design',
     tags: ['design-system', 'documentation', 'components', 'patterns'],
+    createdAt: '2024-10-15',
   },
   {
     id: 'design-feature-spec',
     title: 'Feature Specification Writer',
     description: 'Write detailed feature specifications for design and development handoff.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'documentation',
+    difficulty: 'advanced',
     content: `Write a feature specification for:
 
 **Feature Name:** [Feature title]
@@ -629,6 +676,7 @@ Please create a spec including:
 - Risks and mitigations`,
     category: 'product-design',
     tags: ['specification', 'requirements', 'documentation', 'handoff'],
+    createdAt: '2024-11-10',
   },
 
   // Engineering Prompts
@@ -636,6 +684,9 @@ Please create a spec including:
     id: 'engineering-code-review',
     title: 'Code Review Assistant',
     description: 'Get thorough code reviews with actionable feedback on best practices.',
+    tools: ['claude'],
+    outputType: 'analysis',
+    difficulty: 'advanced',
     content: `Review the following code and provide detailed feedback on:
 
 **Language/Framework:** [e.g., TypeScript/React]
@@ -692,11 +743,15 @@ For each issue found:
     category: 'engineering',
     tags: ['code-review', 'best-practices', 'quality', 'feedback'],
     author: 'David Park',
+    createdAt: '2024-12-05',
   },
   {
     id: 'engineering-technical-design',
     title: 'Technical Design Document',
     description: 'Create comprehensive technical design documents for new features.',
+    tools: ['claude'],
+    outputType: 'documentation',
+    difficulty: 'advanced',
     content: `Create a technical design document for:
 
 **Feature/System:** [What you're building]
@@ -759,11 +814,15 @@ Please generate:
 - Estimated effort`,
     category: 'engineering',
     tags: ['design-doc', 'architecture', 'planning', 'documentation'],
+    createdAt: '2024-11-25',
   },
   {
     id: 'engineering-debugging',
     title: 'Debug Detective',
     description: 'Systematic debugging assistance to identify and fix issues.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'code',
+    difficulty: 'advanced',
     content: `Help debug this issue:
 
 **Environment:**
@@ -812,11 +871,15 @@ Please help me:
    - Monitoring suggestions`,
     category: 'engineering',
     tags: ['debugging', 'troubleshooting', 'errors', 'problem-solving'],
+    createdAt: '2024-10-30',
   },
   {
     id: 'engineering-api-design',
     title: 'API Design Guide',
     description: 'Design RESTful APIs with clear contracts and best practices.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'code',
+    difficulty: 'intermediate',
     content: `Design an API for:
 
 **Resource/Feature:** [What the API manages]
@@ -878,5 +941,207 @@ Response:
 - Example requests/responses`,
     category: 'engineering',
     tags: ['api-design', 'rest', 'architecture', 'documentation'],
+    createdAt: '2024-09-18',
+  },
+
+  // Productivity Prompts
+  {
+    id: 'productivity-meeting-notes',
+    title: 'Meeting Notes Summarizer',
+    description: 'Transform raw meeting notes into structured action items and summaries.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'report',
+    difficulty: 'beginner',
+    content: `Summarize the following meeting notes:
+
+**Meeting Notes:**
+[Paste your raw meeting notes here]
+
+**Meeting Context:**
+- Meeting Type: [Team sync/Planning/Review/1:1/etc.]
+- Attendees: [List of participants]
+- Date: [Meeting date]
+
+Please provide:
+
+**1. Executive Summary**
+- 2-3 sentence overview of what was discussed
+- Key decisions made
+
+**2. Action Items**
+For each action item:
+- [ ] Task description
+- Owner: [Person responsible]
+- Due date: [If mentioned]
+- Priority: [High/Medium/Low]
+
+**3. Key Discussion Points**
+- Main topics covered
+- Different viewpoints raised
+- Unresolved questions
+
+**4. Decisions Made**
+- What was agreed upon
+- Any changes to previous plans
+
+**5. Next Steps**
+- Follow-up meetings needed
+- Items to prepare before next meeting
+- Parking lot items for future discussion`,
+    category: 'productivity',
+    tags: ['meetings', 'notes', 'action-items', 'summary'],
+    author: 'Lisa Park',
+    createdAt: '2024-12-10',
+  },
+  {
+    id: 'productivity-weekly-review',
+    title: 'Weekly Review Generator',
+    description: 'Create comprehensive weekly progress reports and plan upcoming priorities.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'report',
+    difficulty: 'beginner',
+    content: `Help me create a weekly review and plan:
+
+**This Week's Activities:**
+[List what you worked on this week]
+
+**Completed Tasks:**
+[List completed items]
+
+**Blockers Encountered:**
+[Any obstacles or challenges]
+
+**Role/Team:** [Your role and team]
+
+Please generate:
+
+**1. Week in Review**
+- Summary of accomplishments
+- Impact delivered
+- Challenges overcome
+
+**2. Progress on Goals**
+- Status of key objectives
+- Metrics/numbers if applicable
+- What moved forward
+
+**3. Learnings & Insights**
+- What went well
+- What could improve
+- Key takeaways
+
+**4. Next Week's Priorities**
+- Top 3 focus areas
+- Key deliverables
+- Important meetings/deadlines
+
+**5. Support Needed**
+- Blockers to escalate
+- Resources required
+- Decisions needed from others
+
+**6. Wins to Celebrate**
+- Personal accomplishments
+- Team successes
+- Recognition deserved`,
+    category: 'productivity',
+    tags: ['weekly-review', 'planning', 'progress', 'reporting'],
+    createdAt: '2024-11-18',
+  },
+  {
+    id: 'productivity-email-drafting',
+    title: 'Professional Email Drafter',
+    description: 'Compose clear, professional emails for various business situations.',
+    tools: ['claude', 'chatgpt', 'gemini'],
+    outputType: 'email',
+    difficulty: 'beginner',
+    content: `Draft a professional email for:
+
+**Email Type:** [Request/Follow-up/Update/Announcement/Apology/Thank you]
+**Recipient:** [Name and role/relationship]
+**Subject/Topic:** [What the email is about]
+**Key Points to Cover:** [Main message points]
+**Desired Outcome:** [What action you want them to take]
+**Tone:** [Formal/Friendly/Urgent/Apologetic]
+
+Please provide:
+
+**3 Subject Line Options:**
+- Option A: [Direct approach]
+- Option B: [Curiosity-driven]
+- Option C: [Action-oriented]
+
+**Email Draft:**
+- Professional greeting
+- Opening that establishes context
+- Body with key points (clear and scannable)
+- Specific ask or call-to-action
+- Professional closing
+
+**Shorter Alternative:**
+- Condensed version for busy recipients
+
+**Tips:**
+- Best time to send
+- Follow-up timing if no response`,
+    category: 'productivity',
+    tags: ['email', 'communication', 'writing', 'professional'],
+    createdAt: '2024-10-08',
+  },
+  {
+    id: 'productivity-task-breakdown',
+    title: 'Project Task Breakdown',
+    description: 'Break down complex projects into manageable, actionable tasks.',
+    tools: ['claude', 'chatgpt'],
+    outputType: 'checklist',
+    difficulty: 'intermediate',
+    content: `Break down this project into tasks:
+
+**Project Name:** [Project title]
+**Project Goal:** [What you're trying to achieve]
+**Deadline:** [When it needs to be done]
+**Team Size:** [Working alone or team size]
+**Current Status:** [Not started/In progress/Blocked]
+
+Please provide:
+
+**1. Project Overview**
+- Scope summary
+- Success criteria
+- Key constraints
+
+**2. Major Milestones**
+For each milestone:
+- Milestone name
+- Target date
+- Deliverables
+
+**3. Task Breakdown**
+For each task:
+- [ ] Task name
+- Estimated time
+- Dependencies
+- Priority level
+- Skills/resources needed
+
+**4. Quick Wins**
+- Tasks that can be done immediately
+- Low-effort, high-impact items
+
+**5. Risk Assessment**
+- Potential blockers
+- Mitigation strategies
+
+**6. Suggested Timeline**
+- Week-by-week or day-by-day breakdown
+- Buffer time recommendations
+
+**7. Definition of Done**
+- How to know each task is complete
+- Quality checklist`,
+    category: 'productivity',
+    tags: ['project-management', 'planning', 'tasks', 'breakdown'],
+    author: 'Michael Torres',
+    createdAt: '2024-11-02',
   },
 ];

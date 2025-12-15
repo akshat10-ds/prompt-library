@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, Megaphone, TrendingUp, Palette, Code2, Tag as TagIcon, Sparkles } from 'lucide-react';
-import { categories, getAllTags } from '@/data';
+import { Search, X, Megaphone, TrendingUp, Palette, Code2, Zap, Tag as TagIcon, Sparkles, Hash } from 'lucide-react';
+import { categories, getAllTags, prompts } from '@/data';
 import { CategoryId } from '@/data/types';
 
 interface SearchInputProps {
@@ -21,6 +21,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   TrendingUp,
   Palette,
   Code2,
+  Zap,
 };
 
 export function SearchInput({
@@ -39,6 +40,25 @@ export function SearchInput({
 
   const allTags = getAllTags();
   const popularTags = allTags.slice(0, 12);
+
+  // Filter tags based on search query
+  const matchingTags = useMemo(() => {
+    if (!value.trim()) return [];
+    const query = value.toLowerCase();
+    return allTags.filter(tag => tag.toLowerCase().includes(query)).slice(0, 8);
+  }, [value, allTags]);
+
+  // Get suggested prompts based on search
+  const suggestedPrompts = useMemo(() => {
+    if (!value.trim()) return [];
+    const query = value.toLowerCase();
+    return prompts
+      .filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query)
+      )
+      .slice(0, 4);
+  }, [value]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -114,8 +134,78 @@ export function SearchInput({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className="absolute top-full left-0 right-0 mt-2 p-4 bg-surface border border-border-subtle rounded-xl shadow-xl z-50 overflow-hidden"
+            className="absolute top-full left-0 right-0 mt-2 p-4 bg-surface border border-border-subtle rounded-xl shadow-xl z-50 overflow-hidden max-h-[70vh] overflow-y-auto"
           >
+            {/* Search Results - show when typing */}
+            {value.trim() && (matchingTags.length > 0 || suggestedPrompts.length > 0) && (
+              <>
+                {/* Matching Tags */}
+                {matchingTags.length > 0 && (
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Hash size={14} className="text-text-tertiary" />
+                      <span className="text-xs font-medium text-text-tertiary uppercase tracking-wider">
+                        Matching Tags
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {matchingTags.map((tag, index) => {
+                        const isSelected = selectedTags.includes(tag);
+                        return (
+                          <motion.button
+                            key={tag}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.02 }}
+                            onClick={() => handleTagClick(tag)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-all ${
+                              isSelected
+                                ? 'bg-accent text-background border-accent'
+                                : 'bg-background text-text-secondary border-border-subtle hover:border-accent hover:text-accent'
+                            }`}
+                          >
+                            {tag}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Suggested Prompts */}
+                {suggestedPrompts.length > 0 && (
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Search size={14} className="text-text-tertiary" />
+                      <span className="text-xs font-medium text-text-tertiary uppercase tracking-wider">
+                        Suggested Prompts
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      {suggestedPrompts.map((prompt, index) => (
+                        <motion.a
+                          key={prompt.id}
+                          href={`/prompt/${prompt.id}`}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="block p-3 rounded-lg bg-background border border-border-subtle hover:border-border hover:bg-surface-elevated transition-all"
+                        >
+                          <div className="text-sm font-medium text-text-primary">{prompt.title}</div>
+                          <div className="text-xs text-text-tertiary line-clamp-1">{prompt.description}</div>
+                        </motion.a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Divider */}
+                <div className="h-px bg-border-subtle my-4" />
+              </>
+            )}
+
             {/* Departments Section */}
             <div className="mb-4">
               <div className="flex items-center gap-2 mb-3">

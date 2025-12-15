@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle } from 'lucide-react';
-import { CategoryId, categories } from '@/data';
+import { CategoryId, categories, ToolId, OutputType, DifficultyLevel } from '@/data';
 import { useToast } from '@/contexts/ToastContext';
 
 interface SubmitPromptModalProps {
@@ -27,6 +27,9 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
     email: '',
     exampleOutput: '',
     urls: '',
+    tools: [] as ToolId[],
+    outputType: '' as OutputType | '',
+    difficulty: '' as DifficultyLevel | '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,6 +73,9 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
         email: '',
         exampleOutput: '',
         urls: '',
+        tools: [],
+        outputType: '',
+        difficulty: '',
       });
     } catch (error) {
       setFormState('error');
@@ -203,6 +209,84 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
                         </option>
                       ))}
                     </select>
+                  </div>
+
+                  {/* Works With Tools */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                      Works with *
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: 'claude' as ToolId, label: 'Claude' },
+                        { id: 'chatgpt' as ToolId, label: 'ChatGPT' },
+                        { id: 'gemini' as ToolId, label: 'Gemini' },
+                        { id: 'other' as ToolId, label: 'Other' },
+                      ].map((tool) => (
+                        <label
+                          key={tool.id}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-all ${
+                            formData.tools.includes(tool.id)
+                              ? 'bg-text-primary text-background border-text-primary'
+                              : 'bg-background border-border-subtle hover:border-border text-text-secondary'
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={formData.tools.includes(tool.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setFormData({ ...formData, tools: [...formData.tools, tool.id] });
+                              } else {
+                                setFormData({ ...formData, tools: formData.tools.filter((t) => t !== tool.id) });
+                              }
+                            }}
+                            className="sr-only"
+                          />
+                          <span className="text-sm font-medium">{tool.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Output Type & Difficulty */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                        Output Type *
+                      </label>
+                      <select
+                        required
+                        value={formData.outputType}
+                        onChange={(e) => setFormData({ ...formData, outputType: e.target.value as OutputType })}
+                        className="w-full px-4 py-2.5 bg-background border border-border-subtle rounded-lg text-text-primary focus:outline-none focus:border-text-secondary transition-colors"
+                      >
+                        <option value="">Select output type</option>
+                        <option value="checklist">Checklist</option>
+                        <option value="email">Email</option>
+                        <option value="report">Report</option>
+                        <option value="code">Code</option>
+                        <option value="analysis">Analysis</option>
+                        <option value="documentation">Documentation</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-text-secondary mb-1.5">
+                        Difficulty *
+                      </label>
+                      <select
+                        required
+                        value={formData.difficulty}
+                        onChange={(e) => setFormData({ ...formData, difficulty: e.target.value as DifficultyLevel })}
+                        className="w-full px-4 py-2.5 bg-background border border-border-subtle rounded-lg text-text-primary focus:outline-none focus:border-text-secondary transition-colors"
+                      >
+                        <option value="">Select difficulty</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                      </select>
+                    </div>
                   </div>
 
                   {/* Description */}

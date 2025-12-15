@@ -25,4 +25,10 @@ export const categories: Category[] = [
     description: 'Development, code review, and technical docs',
     icon: 'Code2',
   },
+  {
+    id: 'productivity',
+    name: 'Productivity',
+    description: 'Task management, writing, and workflow optimization',
+    icon: 'Zap',
+  },
 ];

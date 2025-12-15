@@ -40,6 +40,22 @@ export function filterPrompts(
       if (!hasAllTags) return false;
     }
 
+    // Tools filter (OR logic - must have at least one selected tool)
+    if (filters.tools && filters.tools.length > 0) {
+      const hasAnyTool = prompt.tools?.some(tool => filters.tools?.includes(tool));
+      if (!hasAnyTool) return false;
+    }
+
+    // Output type filter
+    if (filters.outputType && filters.outputType !== 'all') {
+      if (prompt.outputType !== filters.outputType) return false;
+    }
+
+    // Difficulty filter
+    if (filters.difficulty && filters.difficulty !== 'all') {
+      if (prompt.difficulty !== filters.difficulty) return false;
+    }
+
     return true;
   });
 }

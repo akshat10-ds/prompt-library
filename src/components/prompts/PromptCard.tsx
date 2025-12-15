@@ -1,12 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { Prompt } from '@/data';
+import { Prompt, ToolId, DifficultyLevel } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
 import { VoteButtons } from '@/components/ui/VoteButtons';
 import { CopyButton } from './CopyButton';
 import { useVoteContext } from '@/contexts/VoteContext';
+import { Sparkles, Gauge, Bot } from 'lucide-react';
+
+const toolLabels: Record<ToolId, string> = {
+  claude: 'Claude',
+  chatgpt: 'ChatGPT',
+  gemini: 'Gemini',
+  other: 'Other',
+};
+
+const difficultyColors: Record<DifficultyLevel, string> = {
+  beginner: 'text-green-500',
+  intermediate: 'text-amber-500',
+  advanced: 'text-red-500',
+};
 
 interface PromptCardProps {
   prompt: Prompt;
@@ -47,9 +61,27 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
           <p className="text-xs text-text-tertiary mb-2">by {prompt.author}</p>
         )}
 
-        <p className="text-sm text-text-secondary mb-4 line-clamp-2">
+        <p className="text-sm text-text-secondary mb-3 line-clamp-2">
           {prompt.description}
         </p>
+
+        {/* Metadata Row */}
+        {(prompt.tools || prompt.difficulty) && (
+          <div className="flex flex-wrap items-center gap-3 mb-3 text-xs text-text-tertiary">
+            {prompt.tools && prompt.tools.length > 0 && (
+              <div className="flex items-center gap-1">
+                <Bot size={12} className="opacity-60" />
+                <span>{prompt.tools.map(t => toolLabels[t]).join(', ')}</span>
+              </div>
+            )}
+            {prompt.difficulty && (
+              <div className={`flex items-center gap-1 ${difficultyColors[prompt.difficulty]}`}>
+                <Gauge size={12} />
+                <span className="capitalize">{prompt.difficulty}</span>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow">
           {contentPreview}

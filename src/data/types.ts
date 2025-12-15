@@ -1,4 +1,12 @@
-export type CategoryId = 'marketing' | 'sales' | 'product-design' | 'engineering';
+export type CategoryId = 'marketing' | 'sales' | 'product-design' | 'engineering' | 'productivity';
+
+export type ToolId = 'claude' | 'chatgpt' | 'gemini' | 'other';
+
+export type OutputType = 'checklist' | 'email' | 'report' | 'code' | 'analysis' | 'documentation' | 'other';
+
+export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
+
+export type SortOption = 'newest' | 'oldest' | 'most-upvoted' | 'alphabetical';
 
 export interface Category {
   id: CategoryId;
@@ -17,10 +25,19 @@ export interface Prompt {
   author?: string;
   exampleOutput?: string;
   urls?: string[];
+  // New metadata fields
+  tools?: ToolId[];
+  outputType?: OutputType;
+  difficulty?: DifficultyLevel;
+  useCount?: number;
+  createdAt?: string;
 }
 
 export interface FilterState {
   search: string;
   category: CategoryId | 'all';
   tags: string[];
+  tools?: ToolId[];
+  outputType?: OutputType | 'all';
+  difficulty?: DifficultyLevel | 'all';
 }

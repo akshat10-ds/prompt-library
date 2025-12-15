@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Palette,
   Code2,
+  Zap,
   LayoutGrid,
 } from 'lucide-react';
 
@@ -14,6 +15,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
   TrendingUp,
   Palette,
   Code2,
+  Zap,
 };
 
 interface CategoryFilterProps {

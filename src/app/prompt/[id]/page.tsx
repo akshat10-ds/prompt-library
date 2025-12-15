@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { prompts } from '@/data';
+import { prompts, ToolId, DifficultyLevel, OutputType } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
 import { VoteButtons } from '@/components/ui/VoteButtons';
@@ -10,7 +10,30 @@ import { Accordion } from '@/components/ui/Accordion';
 import { CopyButton } from '@/components/prompts/CopyButton';
 import { Comments } from '@/components/prompts/Comments';
 import { useVoteContext } from '@/contexts/VoteContext';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Bot, Gauge, FileOutput } from 'lucide-react';
+
+const toolLabels: Record<ToolId, string> = {
+  claude: 'Claude',
+  chatgpt: 'ChatGPT',
+  gemini: 'Gemini',
+  other: 'Other',
+};
+
+const outputTypeLabels: Record<OutputType, string> = {
+  checklist: 'Checklist',
+  email: 'Email',
+  report: 'Report',
+  code: 'Code',
+  analysis: 'Analysis',
+  documentation: 'Documentation',
+  other: 'Other',
+};
+
+const difficultyConfig: Record<DifficultyLevel, { label: string; color: string; bg: string }> = {
+  beginner: { label: 'Beginner', color: 'text-green-500', bg: 'bg-green-500/10' },
+  intermediate: { label: 'Intermediate', color: 'text-amber-500', bg: 'bg-amber-500/10' },
+  advanced: { label: 'Advanced', color: 'text-red-500', bg: 'bg-red-500/10' },
+};
 
 export default function PromptDetailPage() {
   const params = useParams();
@@ -102,6 +125,45 @@ export default function PromptDetailPage() {
               <Tag key={tag} tag={tag} />
             ))}
           </div>
+
+          {/* Metadata Cards */}
+          {(prompt.tools || prompt.outputType || prompt.difficulty) && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              {prompt.tools && prompt.tools.length > 0 && (
+                <div className="p-4 bg-surface rounded-xl border border-border-subtle">
+                  <div className="flex items-center gap-2 text-text-tertiary mb-2">
+                    <Bot size={16} />
+                    <span className="text-xs uppercase tracking-wide">Works with</span>
+                  </div>
+                  <p className="text-text-primary font-medium">
+                    {prompt.tools.map(t => toolLabels[t]).join(', ')}
+                  </p>
+                </div>
+              )}
+              {prompt.outputType && (
+                <div className="p-4 bg-surface rounded-xl border border-border-subtle">
+                  <div className="flex items-center gap-2 text-text-tertiary mb-2">
+                    <FileOutput size={16} />
+                    <span className="text-xs uppercase tracking-wide">Output Type</span>
+                  </div>
+                  <p className="text-text-primary font-medium">
+                    {outputTypeLabels[prompt.outputType]}
+                  </p>
+                </div>
+              )}
+              {prompt.difficulty && (
+                <div className="p-4 bg-surface rounded-xl border border-border-subtle">
+                  <div className="flex items-center gap-2 text-text-tertiary mb-2">
+                    <Gauge size={16} />
+                    <span className="text-xs uppercase tracking-wide">Difficulty</span>
+                  </div>
+                  <p className={`font-medium ${difficultyConfig[prompt.difficulty].color}`}>
+                    {difficultyConfig[prompt.difficulty].label}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Usage Tips - Accordion (moved above content) */}
           <div className="mb-8">

@@ -1,6 +1,6 @@
 import { Redis } from '@upstash/redis';
 import { NextRequest, NextResponse } from 'next/server';
-import { CategoryId } from '@/data/types';
+import { CategoryId, ToolId, OutputType, DifficultyLevel } from '@/data/types';
 
 // Initialize Redis with KV_ prefixed environment variables
 const redis = new Redis({
@@ -19,6 +19,9 @@ export interface PromptSubmission {
   email: string;
   exampleOutput?: string;
   urls?: string[];
+  tools: ToolId[];
+  outputType: OutputType;
+  difficulty: DifficultyLevel;
   status: 'pending' | 'approved' | 'rejected';
   submittedAt: string;
 }
@@ -46,12 +49,34 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, content, category, tags, author, email, exampleOutput, urls } = body;
+    const { title, description, content, category, tags, author, email, exampleOutput, urls, tools, outputType, difficulty } = body;
 
     // Validate required fields
     if (!title || !description || !content || !category || !author || !email) {
       return NextResponse.json(
         { error: 'Missing required fields: title, description, content, category, author, email' },
+        { status: 400 }
+      );
+    }
+
+    // Validate new metadata fields
+    if (!tools || tools.length === 0) {
+      return NextResponse.json(
+        { error: 'Please select at least one tool this prompt works with' },
+        { status: 400 }
+      );
+    }
+
+    if (!outputType) {
+      return NextResponse.json(
+        { error: 'Please select an output type' },
+        { status: 400 }
+      );
+    }
+
+    if (!difficulty) {
+      return NextResponse.json(
+        { error: 'Please select a difficulty level' },
         { status: 400 }
       );
     }
@@ -79,6 +104,9 @@ export async function POST(request: NextRequest) {
       email,
       exampleOutput: exampleOutput || undefined,
       urls: urls && urls.length > 0 ? urls : undefined,
+      tools,
+      outputType,
+      difficulty,
       status: 'pending',
       submittedAt: new Date().toISOString(),
     };

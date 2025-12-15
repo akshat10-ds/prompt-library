@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { prompts } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
@@ -44,13 +45,21 @@ export default function PromptDetailPage() {
       {/* Header */}
       <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg border-b border-border-subtle">
         <div className="max-w-4xl mx-auto px-6 py-4">
-          <button
+          <motion.button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.98 }}
+            className="group flex items-center gap-2 px-3 py-2 -ml-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-elevated transition-colors"
           >
-            <ArrowLeft size={20} />
+            <motion.span
+              className="inline-flex"
+              whileHover={{ x: -2 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <ArrowLeft size={20} />
+            </motion.span>
             <span>Back to Library</span>
-          </button>
+          </motion.button>
         </div>
       </header>
 

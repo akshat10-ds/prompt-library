@@ -47,6 +47,10 @@ export function MainLayout({
         <Header
           searchValue={searchValue}
           onSearchChange={onSearchChange}
+          onCategorySelect={onCategoryChange}
+          onTagSelect={onTagToggle}
+          selectedCategory={activeCategory}
+          selectedTags={selectedTags}
           onMenuClick={() => setSidebarOpen(true)}
         />
 

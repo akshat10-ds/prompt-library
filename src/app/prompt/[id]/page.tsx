@@ -59,9 +59,14 @@ export default function PromptDetailPage() {
           </div>
 
           {/* Title */}
-          <h1 className="font-serif text-3xl md:text-4xl text-text-primary mb-4">
+          <h1 className="font-serif text-3xl md:text-4xl text-text-primary mb-2">
             {prompt.title}
           </h1>
+
+          {/* Author */}
+          {prompt.author && (
+            <p className="text-sm text-text-tertiary mb-4">by {prompt.author}</p>
+          )}
 
           {/* Description */}
           <p className="text-lg text-text-secondary mb-8">

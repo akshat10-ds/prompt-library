@@ -50,6 +50,7 @@ Please generate a brief that includes:
    - Review checkpoints`,
     category: 'marketing',
     tags: ['campaign', 'strategy', 'planning', 'brief'],
+    author: 'Sarah Chen',
   },
   {
     id: 'marketing-social-content',
@@ -89,6 +90,7 @@ Please generate:
 - Repurposing opportunities`,
     category: 'marketing',
     tags: ['social-media', 'content', 'copywriting', 'engagement'],
+    author: 'Marcus Johnson',
   },
   {
     id: 'marketing-email-sequence',
@@ -224,6 +226,7 @@ Please generate:
 - Follow-up #3 (14 days): Breakup email`,
     category: 'sales',
     tags: ['outreach', 'email', 'prospecting', 'cold-email'],
+    author: 'Alex Rivera',
   },
   {
     id: 'sales-discovery-questions',
@@ -435,6 +438,7 @@ Please generate:
 - Stakeholder presentation outline`,
     category: 'product-design',
     tags: ['research', 'user-research', 'planning', 'methodology'],
+    author: 'Emma Liu',
   },
   {
     id: 'design-ux-audit',
@@ -687,6 +691,7 @@ For each issue found:
 - **Solution:** How to fix with code example`,
     category: 'engineering',
     tags: ['code-review', 'best-practices', 'quality', 'feedback'],
+    author: 'David Park',
   },
   {
     id: 'engineering-technical-design',

@@ -14,6 +14,7 @@ export interface Prompt {
   content: string;
   category: CategoryId;
   tags: string[];
+  author?: string;
 }
 
 export interface FilterState {

@@ -3,7 +3,7 @@
 import { CategoryId, getAllTags } from '@/data';
 import { CategoryFilter } from '@/components/filters/CategoryFilter';
 import { TagFilter } from '@/components/filters/TagFilter';
-import { X } from 'lucide-react';
+import { X, Plus } from 'lucide-react';
 
 interface SidebarProps {
   activeCategory: CategoryId | 'all';
@@ -39,9 +39,9 @@ export function Sidebar({
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-full w-72 bg-surface border-r border-border-subtle
+          fixed top-0 left-0 h-screen w-72 bg-surface border-r border-border-subtle
           z-40 overflow-y-auto transition-transform duration-300 ease-out
-          lg:translate-x-0 lg:static lg:z-0
+          lg:translate-x-0 lg:sticky lg:z-0 lg:shrink-0
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
@@ -71,7 +71,7 @@ export function Sidebar({
           </div>
 
           {/* Tags */}
-          <div>
+          <div className="mb-8">
             <h3 className="text-xs font-medium text-text-tertiary uppercase tracking-wider mb-3">
               Tags
             </h3>
@@ -80,6 +80,21 @@ export function Sidebar({
               selectedTags={selectedTags}
               onToggle={onTagToggle}
             />
+          </div>
+
+          {/* Submit Prompt Button */}
+          <div className="pt-4 border-t border-border-subtle">
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 px-4
+                bg-text-primary text-background rounded-lg font-medium text-sm
+                hover:bg-text-secondary transition-colors"
+            >
+              <Plus size={18} />
+              Submit your prompt
+            </a>
           </div>
         </div>
       </aside>

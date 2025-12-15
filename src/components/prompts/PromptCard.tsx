@@ -28,9 +28,13 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
           </div>
         </div>
 
-        <h3 className="font-serif text-lg text-text-primary mb-2 group-hover:text-accent transition-colors">
+        <h3 className="font-serif text-lg text-text-primary mb-1 group-hover:text-accent transition-colors">
           {prompt.title}
         </h3>
+
+        {prompt.author && (
+          <p className="text-xs text-text-tertiary mb-2">by {prompt.author}</p>
+        )}
 
         <p className="text-sm text-text-secondary mb-4 line-clamp-2">
           {prompt.description}

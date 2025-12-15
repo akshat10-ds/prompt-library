@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { Prompt } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
+import { VoteButtons } from '@/components/ui/VoteButtons';
 import { CopyButton } from './CopyButton';
+import { useVoteContext } from '@/contexts/VoteContext';
 
 interface PromptCardProps {
   prompt: Prompt;
@@ -12,6 +14,8 @@ interface PromptCardProps {
 }
 
 export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
+  const { vote, getVoteCount, getUserVote } = useVoteContext();
+
   // Truncate content for preview
   const contentPreview =
     prompt.content.length > 200
@@ -23,7 +27,14 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
       <article className="prompt-card p-5 flex flex-col h-full group">
         <div className="flex items-start justify-between gap-3 mb-3">
           <CategoryBadge categoryId={prompt.category} />
-          <div onClick={(e) => e.preventDefault()}>
+          <div className="flex items-center gap-2" onClick={(e) => e.preventDefault()}>
+            <VoteButtons
+              voteCount={getVoteCount(prompt.id)}
+              userVote={getUserVote(prompt.id)}
+              onUpvote={() => vote(prompt.id, 'upvote')}
+              onDownvote={() => vote(prompt.id, 'downvote')}
+              size="sm"
+            />
             <CopyButton content={prompt.content} />
           </div>
         </div>

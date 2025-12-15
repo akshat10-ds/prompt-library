@@ -4,12 +4,15 @@ import { useParams, useRouter } from 'next/navigation';
 import { prompts, categories } from '@/data';
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { Tag } from '@/components/ui/Tag';
+import { VoteButtons } from '@/components/ui/VoteButtons';
 import { CopyButton } from '@/components/prompts/CopyButton';
+import { useVoteContext } from '@/contexts/VoteContext';
 import { ArrowLeft } from 'lucide-react';
 
 export default function PromptDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { vote, getVoteCount, getUserVote } = useVoteContext();
   const promptId = params.id as string;
 
   const prompt = prompts.find((p) => p.id === promptId);
@@ -52,10 +55,19 @@ export default function PromptDetailPage() {
       {/* Content */}
       <main className="max-w-4xl mx-auto px-6 py-8">
         <article className="animate-fade-in-up">
-          {/* Category & Copy */}
+          {/* Category & Actions */}
           <div className="flex items-center justify-between mb-6">
             <CategoryBadge categoryId={prompt.category} />
-            <CopyButton content={prompt.content} />
+            <div className="flex items-center gap-3">
+              <VoteButtons
+                voteCount={getVoteCount(prompt.id)}
+                userVote={getUserVote(prompt.id)}
+                onUpvote={() => vote(prompt.id, 'upvote')}
+                onDownvote={() => vote(prompt.id, 'downvote')}
+                size="md"
+              />
+              <CopyButton content={prompt.content} />
+            </div>
           </div>
 
           {/* Title */}

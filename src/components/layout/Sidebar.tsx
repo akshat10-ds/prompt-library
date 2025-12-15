@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { CategoryId, getAllTags } from '@/data';
 import { CategoryFilter } from '@/components/filters/CategoryFilter';
 import { TagFilter } from '@/components/filters/TagFilter';
+import { SubmitPromptModal } from '@/components/prompts/SubmitPromptModal';
 import { X, Plus } from 'lucide-react';
 
 interface SidebarProps {
@@ -24,6 +26,7 @@ export function Sidebar({
   isOpen,
   onClose,
 }: SidebarProps) {
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const allTags = getAllTags();
 
   return (
@@ -84,20 +87,25 @@ export function Sidebar({
 
           {/* Submit Prompt Button */}
           <div className="pt-4 border-t border-border-subtle">
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setIsSubmitModalOpen(true)}
               className="flex items-center justify-center gap-2 w-full py-3 px-4
                 bg-text-primary text-background rounded-lg font-medium text-sm
                 hover:bg-text-secondary transition-colors"
             >
               <Plus size={18} />
               Submit your prompt
-            </a>
+            </button>
           </div>
         </div>
       </aside>
+
+      {/* Submit Modal */}
+      <SubmitPromptModal
+        isOpen={isSubmitModalOpen}
+        onClose={() => setIsSubmitModalOpen(false)}
+      />
     </>
   );
 }

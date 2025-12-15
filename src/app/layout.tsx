@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Providers } from '@/components/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <div className="gradient-mesh" />
-        {children}
-        <div className="noise-overlay" />
+        <Providers>
+          <div className="gradient-mesh" />
+          {children}
+          <div className="noise-overlay" />
+        </Providers>
       </body>
     </html>
   );

@@ -19,34 +19,33 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
       : prompt.content;
 
   return (
-    <article className="prompt-card p-5 flex flex-col h-full">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <CategoryBadge categoryId={prompt.category} />
-        <CopyButton content={prompt.content} />
-      </div>
+    <Link href={`/prompt/${prompt.id}`} className="block">
+      <article className="prompt-card p-5 flex flex-col h-full group">
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <CategoryBadge categoryId={prompt.category} />
+          <div onClick={(e) => e.preventDefault()}>
+            <CopyButton content={prompt.content} />
+          </div>
+        </div>
 
-      <Link href={`/prompt/${prompt.id}`} className="group">
         <h3 className="font-serif text-lg text-text-primary mb-2 group-hover:text-accent transition-colors">
           {prompt.title}
         </h3>
-      </Link>
 
-      <p className="text-sm text-text-secondary mb-4 line-clamp-2">
-        {prompt.description}
-      </p>
+        <p className="text-sm text-text-secondary mb-4 line-clamp-2">
+          {prompt.description}
+        </p>
 
-      <Link
-        href={`/prompt/${prompt.id}`}
-        className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow hover:border-accent transition-colors cursor-pointer"
-      >
-        {contentPreview}
-      </Link>
+        <div className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow">
+          {contentPreview}
+        </div>
 
-      <div className="flex flex-wrap gap-2 mt-auto">
-        {prompt.tags.map((tag) => (
-          <Tag key={tag} tag={tag} onClick={() => onTagClick?.(tag)} />
-        ))}
-      </div>
-    </article>
+        <div className="flex flex-wrap gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
+          {prompt.tags.map((tag) => (
+            <Tag key={tag} tag={tag} onClick={() => onTagClick?.(tag)} />
+          ))}
+        </div>
+      </article>
+    </Link>
   );
 }

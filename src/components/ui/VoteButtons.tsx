@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface VoteButtonsProps {
@@ -22,14 +23,18 @@ export function VoteButtons({
 
   return (
     <div className="flex items-center gap-1">
-      <button
+      <motion.button
         type="button"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           onUpvote();
         }}
-        className={`${paddingClass} rounded transition-colors ${
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.85 }}
+        animate={userVote === 'up' ? { scale: [1, 1.2, 1] } : {}}
+        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        className={`vote-btn ${paddingClass} rounded transition-colors ${
           userVote === 'up'
             ? 'bg-text-primary text-background'
             : 'text-text-tertiary hover:text-text-primary hover:bg-surface-elevated'
@@ -37,30 +42,41 @@ export function VoteButtons({
         aria-label="Upvote"
       >
         <ChevronUp size={iconSize} />
-      </button>
+      </motion.button>
 
-      <span
-        className={`min-w-[2ch] text-center font-medium ${
-          size === 'sm' ? 'text-xs' : 'text-sm'
-        } ${
-          voteCount > 0
-            ? 'text-text-primary'
-            : voteCount < 0
-            ? 'text-text-tertiary'
-            : 'text-text-secondary'
-        }`}
-      >
-        {voteCount}
-      </span>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={voteCount}
+          initial={{ opacity: 0, y: voteCount > 0 ? -10 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: voteCount > 0 ? 10 : -10 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+          className={`min-w-[2ch] text-center font-medium ${
+            size === 'sm' ? 'text-xs' : 'text-sm'
+          } ${
+            voteCount > 0
+              ? 'text-text-primary'
+              : voteCount < 0
+              ? 'text-text-tertiary'
+              : 'text-text-secondary'
+          }`}
+        >
+          {voteCount}
+        </motion.span>
+      </AnimatePresence>
 
-      <button
+      <motion.button
         type="button"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           onDownvote();
         }}
-        className={`${paddingClass} rounded transition-colors ${
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.85 }}
+        animate={userVote === 'down' ? { scale: [1, 1.2, 1] } : {}}
+        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        className={`vote-btn ${paddingClass} rounded transition-colors ${
           userVote === 'down'
             ? 'bg-text-primary text-background'
             : 'text-text-tertiary hover:text-text-primary hover:bg-surface-elevated'
@@ -68,7 +84,7 @@ export function VoteButtons({
         aria-label="Downvote"
       >
         <ChevronDown size={iconSize} />
-      </button>
+      </motion.button>
     </div>
   );
 }

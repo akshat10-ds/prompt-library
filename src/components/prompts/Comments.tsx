@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Send } from 'lucide-react';
+import { useToast } from '@/contexts/ToastContext';
 
 interface Comment {
   id: string;
@@ -22,6 +24,7 @@ export function Comments({ promptId }: CommentsProps) {
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   useEffect(() => {
     async function loadComments() {
@@ -58,9 +61,10 @@ export function Comments({ promptId }: CommentsProps) {
       const newComment = await response.json();
       setComments([newComment, ...comments]);
       setContent('');
-      // Keep author name for convenience
+      showToast('Comment posted');
     } catch (err) {
       setError('Failed to post comment. Please try again.');
+      showToast('Failed to post comment', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -119,14 +123,16 @@ export function Comments({ promptId }: CommentsProps) {
         {error && (
           <p className="text-red-500 text-sm mb-4">{error}</p>
         )}
-        <button
+        <motion.button
           type="submit"
           disabled={isSubmitting || !author.trim() || !content.trim()}
-          className="flex items-center gap-2 px-5 py-2.5 bg-text-primary text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="btn-primary-glow flex items-center gap-2 px-5 py-2.5 bg-text-primary text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send size={16} />
           {isSubmitting ? 'Posting...' : 'Post Comment'}
-        </button>
+        </motion.button>
       </form>
 
       {/* Comments List */}
@@ -138,18 +144,23 @@ export function Comments({ promptId }: CommentsProps) {
         </div>
       ) : (
         <div className="space-y-4">
-          {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="p-5 bg-surface rounded-xl border border-border-subtle"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-text-primary">{comment.author}</span>
-                <span className="text-xs text-text-tertiary">{formatDate(comment.createdAt)}</span>
-              </div>
-              <p className="text-text-secondary">{comment.content}</p>
-            </div>
-          ))}
+          <AnimatePresence>
+            {comments.map((comment, index) => (
+              <motion.div
+                key={comment.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="p-5 bg-surface rounded-xl border border-border-subtle"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium text-text-primary">{comment.author}</span>
+                  <span className="text-xs text-text-tertiary">{formatDate(comment.createdAt)}</span>
+                </div>
+                <p className="text-text-secondary">{comment.content}</p>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>

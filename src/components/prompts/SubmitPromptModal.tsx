@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle } from 'lucide-react';
 import { CategoryId, categories } from '@/data';
+import { useToast } from '@/contexts/ToastContext';
 
 interface SubmitPromptModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ type FormState = 'form' | 'submitting' | 'success' | 'error';
 export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
   const [formState, setFormState] = useState<FormState>('form');
   const [errorMessage, setErrorMessage] = useState('');
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -56,6 +58,7 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
       }
 
       setFormState('success');
+      showToast('Prompt submitted successfully!');
       // Reset form after success
       setFormData({
         title: '',
@@ -70,7 +73,9 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
       });
     } catch (error) {
       setFormState('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong');
+      const message = error instanceof Error ? error.message : 'Something went wrong';
+      setErrorMessage(message);
+      showToast(message, 'error');
     }
   };
 
@@ -281,14 +286,20 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
 
                   {/* Submit Button */}
                   <div className="pt-2">
-                    <button
+                    <motion.button
                       type="submit"
                       disabled={formState === 'submitting'}
-                      className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-text-primary text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      className="btn-primary-glow w-full flex items-center justify-center gap-2 px-6 py-3 bg-text-primary text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {formState === 'submitting' ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full animate-spin" />
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                            className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full"
+                          />
                           Submitting...
                         </>
                       ) : (
@@ -297,7 +308,7 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
                           Submit Prompt
                         </>
                       )}
-                    </button>
+                    </motion.button>
                   </div>
                 </form>
               )}

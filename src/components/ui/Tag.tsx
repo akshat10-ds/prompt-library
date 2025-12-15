@@ -1,5 +1,7 @@
 'use client';
 
+import { motion } from 'framer-motion';
+
 interface TagProps {
   tag: string;
   active?: boolean;
@@ -8,16 +10,19 @@ interface TagProps {
 
 export function Tag({ tag, active, onClick }: TagProps) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
-      className={`tag cursor-pointer ${
+      whileHover={{ scale: 1.05, y: -1 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      className={`tag tag-interactive cursor-pointer ${
         active
-          ? 'bg-accent/20 border-accent text-accent'
+          ? 'selected bg-text-primary border-text-primary text-background'
           : ''
       }`}
     >
       {tag}
-    </button>
+    </motion.button>
   );
 }

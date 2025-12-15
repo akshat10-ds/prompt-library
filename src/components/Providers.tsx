@@ -2,7 +2,12 @@
 
 import { ReactNode } from 'react';
 import { VoteProvider } from '@/contexts/VoteContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 
 export function Providers({ children }: { children: ReactNode }) {
-  return <VoteProvider>{children}</VoteProvider>;
+  return (
+    <ToastProvider>
+      <VoteProvider>{children}</VoteProvider>
+    </ToastProvider>
+  );
 }

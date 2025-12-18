@@ -51,20 +51,12 @@ const fontPairingScript = `
       }
     };
     var saved = localStorage.getItem('font-pairing');
-    if (saved && fontPairings[saved]) {
-      var pairing = fontPairings[saved];
-      document.documentElement.style.setProperty('--font-serif', pairing.serif);
-      document.documentElement.style.setProperty('--font-sans', pairing.sans);
-      document.documentElement.style.setProperty('--font-mono', pairing.mono);
-      document.documentElement.setAttribute('data-font', saved);
-      if (pairing.import) {
-        var link = document.createElement('link');
-        link.id = 'dynamic-fonts';
-        link.rel = 'stylesheet';
-        link.href = pairing.import;
-        document.head.appendChild(link);
-      }
-    }
+    var pairingId = (saved && fontPairings[saved]) ? saved : 'current';
+    var pairing = fontPairings[pairingId];
+    document.documentElement.style.setProperty('--font-serif', pairing.serif);
+    document.documentElement.style.setProperty('--font-sans', pairing.sans);
+    document.documentElement.style.setProperty('--font-mono', pairing.mono);
+    document.documentElement.setAttribute('data-font', pairingId);
   } catch (e) {}
 })();
 `;

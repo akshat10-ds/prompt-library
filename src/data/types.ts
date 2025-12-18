@@ -1,6 +1,6 @@
 export type CategoryId = 'marketing' | 'sales' | 'product-design' | 'engineering' | 'productivity';
 
-export type ToolId = 'claude' | 'chatgpt' | 'gemini' | 'other';
+export type ToolId = 'askgpt' | 'gemini' | 'glean';
 
 export type OutputType = 'checklist' | 'email' | 'report' | 'code' | 'analysis' | 'documentation' | 'other';
 

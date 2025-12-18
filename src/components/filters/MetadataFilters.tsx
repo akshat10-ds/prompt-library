@@ -13,10 +13,9 @@ interface MetadataFiltersProps {
 }
 
 const tools: { id: ToolId; label: string }[] = [
-  { id: 'claude', label: 'Claude' },
-  { id: 'chatgpt', label: 'ChatGPT' },
+  { id: 'askgpt', label: 'AskGPT' },
   { id: 'gemini', label: 'Gemini' },
-  { id: 'other', label: 'Other' },
+  { id: 'glean', label: 'Glean' },
 ];
 
 const outputTypes: { id: OutputType | 'all'; label: string }[] = [

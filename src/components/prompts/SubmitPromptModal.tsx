@@ -218,10 +218,9 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {[
-                        { id: 'claude' as ToolId, label: 'Claude' },
-                        { id: 'chatgpt' as ToolId, label: 'ChatGPT' },
+                        { id: 'askgpt' as ToolId, label: 'AskGPT' },
                         { id: 'gemini' as ToolId, label: 'Gemini' },
-                        { id: 'other' as ToolId, label: 'Other' },
+                        { id: 'glean' as ToolId, label: 'Glean' },
                       ].map((tool) => (
                         <label
                           key={tool.id}

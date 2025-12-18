@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { CategoryId, getAllTags, ToolId, OutputType, DifficultyLevel } from '@/data';
 import { CategoryFilter } from '@/components/filters/CategoryFilter';
 import { TagFilter } from '@/components/filters/TagFilter';
@@ -62,9 +63,9 @@ export function Sidebar({
         <div className="p-6">
           {/* Header with title and mobile close */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="font-serif text-xl text-text-primary">
+            <Link href="/" className="font-serif text-xl text-text-primary hover:text-accent transition-colors">
               <span className="text-accent">Docusign</span> Prompt Library
-            </h1>
+            </Link>
             <button
               type="button"
               onClick={onClose}

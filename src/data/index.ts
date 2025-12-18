@@ -1,6 +1,7 @@
 export * from './types';
 export { categories } from './categories';
 export { prompts } from './prompts';
+export { featuredPrompts } from './featured';
 
 import { Prompt, CategoryId, FilterState } from './types';
 import { prompts } from './prompts';

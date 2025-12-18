@@ -13,10 +13,9 @@ import { useVoteContext } from '@/contexts/VoteContext';
 import { ArrowLeft, ExternalLink, Bot, Gauge, FileOutput } from 'lucide-react';
 
 const toolLabels: Record<ToolId, string> = {
-  claude: 'Claude',
-  chatgpt: 'ChatGPT',
+  askgpt: 'AskGPT',
   gemini: 'Gemini',
-  other: 'Other',
+  glean: 'Glean',
 };
 
 const outputTypeLabels: Record<OutputType, string> = {

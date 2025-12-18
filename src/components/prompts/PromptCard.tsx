@@ -10,10 +10,9 @@ import { useVoteContext } from '@/contexts/VoteContext';
 import { Sparkles, Gauge, Bot } from 'lucide-react';
 
 const toolLabels: Record<ToolId, string> = {
-  claude: 'Claude',
-  chatgpt: 'ChatGPT',
+  askgpt: 'AskGPT',
   gemini: 'Gemini',
-  other: 'Other',
+  glean: 'Glean',
 };
 
 const difficultyColors: Record<DifficultyLevel, string> = {

@@ -69,6 +69,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Preload default fonts to prevent FOUT (Flash of Unstyled Text) */}
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
         <script dangerouslySetInnerHTML={{ __html: fontPairingScript }} />
       </head>
       <body className="antialiased">

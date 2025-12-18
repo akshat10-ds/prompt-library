@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { CategoryId, getAllTags, ToolId, OutputType, DifficultyLevel } from '@/data';
 import { CategoryFilter } from '@/components/filters/CategoryFilter';
 import { TagFilter } from '@/components/filters/TagFilter';
 import { MetadataFilters } from '@/components/filters/MetadataFilters';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
-import { X } from 'lucide-react';
+import { FontSwitcher } from '@/components/ui/FontSwitcher';
+import { Logo } from '@/components/ui/Logo';
+import { X, MessageSquare, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
 
 interface SidebarProps {
   activeCategory: CategoryId | 'all';
@@ -40,6 +43,13 @@ export function Sidebar({
   onClose,
 }: SidebarProps) {
   const allTags = getAllTags();
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  // Check if any advanced filters are active
+  const hasActiveAdvancedFilters =
+    selectedTools.length > 0 ||
+    selectedOutputType !== 'all' ||
+    selectedDifficulty !== 'all';
 
   return (
     <>
@@ -63,8 +73,8 @@ export function Sidebar({
         <div className="p-6">
           {/* Header with title and mobile close */}
           <div className="flex items-center justify-between mb-6">
-            <Link href="/" className="font-serif text-xl text-text-primary hover:text-accent transition-colors">
-              <span className="text-accent">Docusign</span> Prompt Library
+            <Link href="/" className="hover:opacity-80 transition-opacity">
+              <Logo className="h-6 w-auto" />
             </Link>
             <button
               type="button"
@@ -73,6 +83,19 @@ export function Sidebar({
             >
               <X size={20} />
             </button>
+          </div>
+
+          {/* Leave Feedback - Subtle top placement */}
+          <div className="mb-8">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdSzX7tXoW783cCJVeSHthjHJQf8NFrKJzxu7WBo6TraLh3sg/viewform?usp=dialog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm text-text-secondary hover:text-text-primary bg-surface-elevated border border-border-subtle rounded-lg hover:border-border transition-colors"
+            >
+              <MessageSquare size={16} />
+              <span>Leave Feedback</span>
+            </a>
           </div>
 
           {/* Categories */}
@@ -88,7 +111,7 @@ export function Sidebar({
           </div>
 
           {/* Tags */}
-          <div className="mb-8">
+          <div className="mb-6">
             <h3 className="text-xs font-medium text-text-tertiary uppercase tracking-wider mb-3">
               Tags
             </h3>
@@ -99,25 +122,50 @@ export function Sidebar({
             />
           </div>
 
-          {/* Metadata Filters */}
-          <div className="mb-8">
-            <h3 className="text-xs font-medium text-text-tertiary uppercase tracking-wider mb-3">
-              Filters
-            </h3>
-            <MetadataFilters
-              selectedTools={selectedTools}
-              onToggleTool={onToggleTool}
-              selectedOutputType={selectedOutputType}
-              onOutputTypeChange={onOutputTypeChange}
-              selectedDifficulty={selectedDifficulty}
-              onDifficultyChange={onDifficultyChange}
-            />
+          {/* More Filters Toggle */}
+          <div className="mb-6">
+            <button
+              type="button"
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+              className={`flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg border transition-all ${
+                showMoreFilters || hasActiveAdvancedFilters
+                  ? 'bg-surface-elevated border-border text-text-primary'
+                  : 'bg-transparent border-border-subtle text-text-secondary hover:border-border hover:text-text-primary'
+              }`}
+            >
+              <SlidersHorizontal size={16} />
+              <span className="flex-grow text-left">More Filters</span>
+              {hasActiveAdvancedFilters && !showMoreFilters && (
+                <span className="w-2 h-2 rounded-full bg-accent" />
+              )}
+              {showMoreFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+
+            {/* Collapsible Metadata Filters */}
+            {showMoreFilters && (
+              <div className="mt-4 pt-4 border-t border-border-subtle">
+                <MetadataFilters
+                  selectedTools={selectedTools}
+                  onToggleTool={onToggleTool}
+                  selectedOutputType={selectedOutputType}
+                  onOutputTypeChange={onOutputTypeChange}
+                  selectedDifficulty={selectedDifficulty}
+                  onDifficultyChange={onDifficultyChange}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Theme Toggle */}
-          <div className="pt-4 mt-4 border-t border-border-subtle flex items-center justify-between">
-            <span className="text-sm text-text-secondary">Theme</span>
-            <ThemeToggle />
+          {/* Settings */}
+          <div className="pt-4 mt-4 border-t border-border-subtle space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-text-secondary">Theme</span>
+              <ThemeToggle />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-text-secondary">Fonts</span>
+              <FontSwitcher openUp />
+            </div>
           </div>
         </div>
       </aside>

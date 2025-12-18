@@ -14,6 +14,7 @@ interface SearchInputProps {
   selectedCategory?: CategoryId | 'all';
   selectedTags?: string[];
   placeholder?: string;
+  autoOpen?: boolean;
 }
 
 const categoryIcons: Record<string, React.ElementType> = {
@@ -32,11 +33,23 @@ export function SearchInput({
   selectedCategory = 'all',
   selectedTags = [],
   placeholder = 'Search prompts...',
+  autoOpen = false,
 }: SearchInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [hasAutoOpened, setHasAutoOpened] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-open the search overlay when autoOpen prop is true
+  useEffect(() => {
+    if (autoOpen && !hasAutoOpened) {
+      setHasAutoOpened(true);
+      setShowOverlay(true);
+      setIsFocused(true);
+      inputRef.current?.focus();
+    }
+  }, [autoOpen, hasAutoOpened]);
 
   const allTags = getAllTags();
   const popularTags = allTags.slice(0, 12);

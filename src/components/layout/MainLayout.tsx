@@ -20,6 +20,7 @@ interface MainLayoutProps {
   selectedDifficulty: DifficultyLevel | 'all';
   onDifficultyChange: (diff: DifficultyLevel | 'all') => void;
   counts?: Record<CategoryId | 'all', number>;
+  autoOpenSearch?: boolean;
 }
 
 export function MainLayout({
@@ -37,6 +38,7 @@ export function MainLayout({
   selectedDifficulty,
   onDifficultyChange,
   counts,
+  autoOpenSearch,
 }: MainLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -70,6 +72,7 @@ export function MainLayout({
           selectedCategory={activeCategory}
           selectedTags={selectedTags}
           onMenuClick={() => setSidebarOpen(true)}
+          autoOpenSearch={autoOpenSearch}
         />
 
         <main className="flex-grow p-6">{children}</main>

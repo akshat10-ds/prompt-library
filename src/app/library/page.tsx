@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { usePromptFilters } from '@/hooks/usePromptFilters';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { PromptGrid } from '@/components/prompts/PromptGrid';
@@ -17,6 +18,8 @@ const sortOptions: { value: SortOption; label: string }[] = [
 ];
 
 function PromptLibrary() {
+  const searchParams = useSearchParams();
+  const autoOpenSearch = searchParams.get('search') === 'open';
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const {
     search,
@@ -54,6 +57,7 @@ function PromptLibrary() {
       selectedDifficulty={difficulty}
       onDifficultyChange={setDifficulty}
       counts={counts}
+      autoOpenSearch={autoOpenSearch}
     >
       {/* Header row with count, sort, and submit button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">

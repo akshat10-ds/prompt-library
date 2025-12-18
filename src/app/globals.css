@@ -1,6 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* DS Indigo Font Family */
+@font-face {
+  font-family: 'DS Indigo';
+  src: url('/fonts/DSIndigo-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DS Indigo';
+  src: url('/fonts/DSIndigo-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DS Indigo';
+  src: url('/fonts/DSIndigo-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DS Indigo';
+  src: url('/fonts/DSIndigo-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* DS Indigo specific styles - use SemiBold for headings */
+:root[data-font="dsindigo"] h1,
+:root[data-font="dsindigo"] h2,
+:root[data-font="dsindigo"] h3,
+:root[data-font="dsindigo"] h4,
+:root[data-font="dsindigo"] h5,
+:root[data-font="dsindigo"] h6,
+:root[data-font="dsindigo"] .font-serif {
+  font-weight: 600;
+}
+
 /* Light mode (default) */
 :root {
   --background: #ffffff;

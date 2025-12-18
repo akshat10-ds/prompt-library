@@ -14,7 +14,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           className="font-serif text-4xl md:text-5xl lg:text-6xl text-text-primary mb-6"
         >
-          <span className="text-accent">Docusign</span> Prompt Library
+          Prompt Library
         </motion.h1>
 
         <motion.p

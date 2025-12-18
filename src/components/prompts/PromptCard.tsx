@@ -52,17 +52,17 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
           </div>
         </div>
 
-        <h3 className="font-serif text-lg text-text-primary mb-1 group-hover:text-accent transition-colors">
+        <h3 className="font-serif text-xl text-text-primary mb-1 group-hover:text-accent transition-colors">
           {prompt.title}
         </h3>
-
-        {prompt.author && (
-          <p className="text-xs text-text-tertiary mb-2">by {prompt.author}</p>
-        )}
 
         <p className="text-sm text-text-secondary mb-3 line-clamp-2">
           {prompt.description}
         </p>
+
+        <div className="prompt-content text-xs max-h-28 overflow-hidden mb-3 flex-grow">
+          {contentPreview}
+        </div>
 
         {/* Metadata Row */}
         {(prompt.tools || prompt.difficulty) && (
@@ -81,10 +81,6 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
             )}
           </div>
         )}
-
-        <div className="prompt-content text-xs max-h-28 overflow-hidden mb-4 flex-grow">
-          {contentPreview}
-        </div>
 
         <div className="flex flex-wrap gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
           {prompt.tags.map((tag) => (

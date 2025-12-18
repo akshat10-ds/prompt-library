@@ -12,6 +12,7 @@ interface HeaderProps {
   selectedCategory?: CategoryId | 'all';
   selectedTags?: string[];
   onMenuClick?: () => void;
+  autoOpenSearch?: boolean;
 }
 
 export function Header({
@@ -22,6 +23,7 @@ export function Header({
   selectedCategory,
   selectedTags,
   onMenuClick,
+  autoOpenSearch,
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg border-b border-border-subtle">
@@ -45,6 +47,7 @@ export function Header({
             selectedCategory={selectedCategory}
             selectedTags={selectedTags}
             placeholder="Search prompts..."
+            autoOpen={autoOpenSearch}
           />
         </div>
       </div>

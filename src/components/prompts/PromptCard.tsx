@@ -7,7 +7,8 @@ import { Tag } from '@/components/ui/Tag';
 import { VoteButtons } from '@/components/ui/VoteButtons';
 import { CopyButton } from './CopyButton';
 import { useVoteContext } from '@/contexts/VoteContext';
-import { Sparkles, Gauge, Bot } from 'lucide-react';
+import { useCommentCountContext } from '@/contexts/CommentCountContext';
+import { Gauge, Bot, MessageSquare } from 'lucide-react';
 
 const toolLabels: Record<ToolId, string> = {
   askgpt: 'AskGPT',
@@ -28,6 +29,8 @@ interface PromptCardProps {
 
 export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
   const { vote, getVoteCount, getUserVote } = useVoteContext();
+  const { getCommentCount } = useCommentCountContext();
+  const commentCount = getCommentCount(prompt.id);
 
   // Truncate content for preview
   const contentPreview =
@@ -65,22 +68,26 @@ export function PromptCard({ prompt, onTagClick }: PromptCardProps) {
         </div>
 
         {/* Metadata Row */}
-        {(prompt.tools || prompt.difficulty) && (
-          <div className="flex flex-wrap items-center gap-3 mb-3 text-xs text-text-tertiary">
-            {prompt.tools && prompt.tools.length > 0 && (
-              <div className="flex items-center gap-1">
-                <Bot size={12} className="opacity-60" />
-                <span>{prompt.tools.map(t => toolLabels[t]).join(', ')}</span>
-              </div>
-            )}
-            {prompt.difficulty && (
-              <div className={`flex items-center gap-1 ${difficultyColors[prompt.difficulty]}`}>
-                <Gauge size={12} />
-                <span className="capitalize">{prompt.difficulty}</span>
-              </div>
-            )}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-3 mb-3 text-xs text-text-tertiary">
+          {prompt.tools && prompt.tools.length > 0 && (
+            <div className="flex items-center gap-1">
+              <Bot size={12} className="opacity-60" />
+              <span>{prompt.tools.map(t => toolLabels[t]).join(', ')}</span>
+            </div>
+          )}
+          {prompt.difficulty && (
+            <div className={`flex items-center gap-1 ${difficultyColors[prompt.difficulty]}`}>
+              <Gauge size={12} />
+              <span className="capitalize">{prompt.difficulty}</span>
+            </div>
+          )}
+          {commentCount > 0 && (
+            <div className="flex items-center gap-1">
+              <MessageSquare size={12} className="opacity-60" />
+              <span>{commentCount}</span>
+            </div>
+          )}
+        </div>
 
         <div className="flex flex-wrap gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
           {prompt.tags.map((tag) => (

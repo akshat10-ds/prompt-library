@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Send } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
+import { useCommentCountContext } from '@/contexts/CommentCountContext';
 
 interface Comment {
   id: string;
@@ -25,6 +26,7 @@ export function Comments({ promptId }: CommentsProps) {
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const { showToast } = useToast();
+  const { incrementCount } = useCommentCountContext();
 
   useEffect(() => {
     async function loadComments() {
@@ -61,6 +63,7 @@ export function Comments({ promptId }: CommentsProps) {
       const newComment = await response.json();
       setComments([newComment, ...comments]);
       setContent('');
+      incrementCount(promptId);
       showToast('Comment posted');
     } catch (err) {
       setError('Failed to post comment. Please try again.');

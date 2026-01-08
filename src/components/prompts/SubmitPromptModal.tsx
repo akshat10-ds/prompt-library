@@ -116,7 +116,7 @@ export function SubmitPromptModal({ isOpen, onClose }: SubmitPromptModalProps) {
               <h2 className="font-serif text-xl text-text-primary">Submit Your Prompt</h2>
               <button
                 onClick={handleClose}
-                className="p-2 rounded-lg text-text-tertiary hover:text-text-primary hover:bg-surface-elevated transition-colors"
+                className="p-2 rounded-lg text-text-tertiary hover:text-text-primary hover:bg-black/10 transition-colors"
               >
                 <X size={20} />
               </button>

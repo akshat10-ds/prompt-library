@@ -86,7 +86,7 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
         onClick={onRemove}
-        className="ml-2 p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-surface transition-colors"
+        className="ml-2 p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-black/10 transition-colors"
       >
         <X size={14} />
       </motion.button>

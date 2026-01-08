@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, ReactNode } from 'react';
-import { CategoryId, ToolId, OutputType, DifficultyLevel } from '@/data';
-import { Sidebar } from './Sidebar';
+import { ReactNode } from 'react';
+import { CategoryId } from '@/data';
 import { Header } from './Header';
+import { CategoryTabs } from '@/components/filters/CategoryTabs';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -11,14 +11,6 @@ interface MainLayoutProps {
   onSearchChange: (value: string) => void;
   activeCategory: CategoryId | 'all';
   onCategoryChange: (category: CategoryId | 'all') => void;
-  selectedTags: string[];
-  onTagToggle: (tag: string) => void;
-  selectedTools: ToolId[];
-  onToggleTool: (tool: ToolId) => void;
-  selectedOutputType: OutputType | 'all';
-  onOutputTypeChange: (type: OutputType | 'all') => void;
-  selectedDifficulty: DifficultyLevel | 'all';
-  onDifficultyChange: (diff: DifficultyLevel | 'all') => void;
   counts?: Record<CategoryId | 'all', number>;
   autoOpenSearch?: boolean;
 }
@@ -29,54 +21,31 @@ export function MainLayout({
   onSearchChange,
   activeCategory,
   onCategoryChange,
-  selectedTags,
-  onTagToggle,
-  selectedTools,
-  onToggleTool,
-  selectedOutputType,
-  onOutputTypeChange,
-  selectedDifficulty,
-  onDifficultyChange,
   counts,
   autoOpenSearch,
 }: MainLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
-    <div className="min-h-screen flex">
-      <Sidebar
-        activeCategory={activeCategory}
-        onCategoryChange={(cat) => {
-          onCategoryChange(cat);
-          setSidebarOpen(false);
-        }}
-        selectedTags={selectedTags}
-        onTagToggle={onTagToggle}
-        selectedTools={selectedTools}
-        onToggleTool={onToggleTool}
-        selectedOutputType={selectedOutputType}
-        onOutputTypeChange={onOutputTypeChange}
-        selectedDifficulty={selectedDifficulty}
-        onDifficultyChange={onDifficultyChange}
-        counts={counts}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Subtle gradient overlay for depth */}
+      <div className="fixed inset-0 bg-gradient-to-b from-transparent via-transparent to-black/[0.02] pointer-events-none" />
+
+      <Header
+        searchValue={searchValue}
+        onSearchChange={onSearchChange}
+        onCategorySelect={onCategoryChange}
+        selectedCategory={activeCategory}
+        autoOpenSearch={autoOpenSearch}
       />
 
-      <div className="flex-grow flex flex-col min-w-0">
-        <Header
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          onCategorySelect={onCategoryChange}
-          onTagSelect={onTagToggle}
-          selectedCategory={activeCategory}
-          selectedTags={selectedTags}
-          onMenuClick={() => setSidebarOpen(true)}
-          autoOpenSearch={autoOpenSearch}
-        />
+      <CategoryTabs
+        activeCategory={activeCategory}
+        onChange={onCategoryChange}
+        counts={counts}
+      />
 
-        <main className="flex-grow p-6">{children}</main>
-      </div>
+      <main className="flex-grow w-full max-w-5xl mx-auto px-6 py-8">
+        {children}
+      </main>
     </div>
   );
 }

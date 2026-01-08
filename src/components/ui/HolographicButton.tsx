@@ -60,7 +60,7 @@ export function HolographicButton({
   const variantStyles = {
     primary: 'bg-text-primary text-background hover:bg-text-secondary',
     secondary: 'bg-surface-elevated border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border',
-    ghost: 'text-text-secondary hover:text-text-primary hover:bg-surface-elevated',
+    ghost: 'text-text-secondary hover:text-text-primary hover:bg-black/10',
   };
 
   const sizeStyles = {

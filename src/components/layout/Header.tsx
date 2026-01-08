@@ -1,7 +1,9 @@
 'use client';
 
-import { Menu } from 'lucide-react';
+import Link from 'next/link';
 import { SearchInput } from '@/components/filters/SearchInput';
+import { SettingsDropdown } from '@/components/ui/SettingsDropdown';
+import { Logo } from '@/components/ui/Logo';
 import { CategoryId } from '@/data/types';
 
 interface HeaderProps {
@@ -11,7 +13,6 @@ interface HeaderProps {
   onTagSelect?: (tag: string) => void;
   selectedCategory?: CategoryId | 'all';
   selectedTags?: string[];
-  onMenuClick?: () => void;
   autoOpenSearch?: boolean;
 }
 
@@ -22,20 +23,15 @@ export function Header({
   onTagSelect,
   selectedCategory,
   selectedTags,
-  onMenuClick,
   autoOpenSearch,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg border-b border-border-subtle">
+    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border-subtle">
       <div className="flex items-center gap-4 px-6 py-4">
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          onClick={onMenuClick}
-          className="p-2 -ml-2 text-text-secondary hover:text-text-primary lg:hidden"
-        >
-          <Menu size={24} />
-        </button>
+        {/* Logo */}
+        <Link href="/" className="hover:opacity-80 transition-opacity">
+          <Logo className="h-5 w-auto" />
+        </Link>
 
         {/* Search - Full width */}
         <div className="flex-grow">
@@ -50,6 +46,9 @@ export function Header({
             autoOpen={autoOpenSearch}
           />
         </div>
+
+        {/* Settings */}
+        <SettingsDropdown />
       </div>
     </header>
   );

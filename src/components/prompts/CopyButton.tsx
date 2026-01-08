@@ -8,9 +8,10 @@ import { useToast } from '@/contexts/ToastContext';
 interface CopyButtonProps {
   content: string;
   className?: string;
+  variant?: 'default' | 'pill';
 }
 
-export function CopyButton({ content, className = '' }: CopyButtonProps) {
+export function CopyButton({ content, className = '', variant = 'default' }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { showToast } = useToast();
@@ -59,6 +60,24 @@ export function CopyButton({ content, className = '' }: CopyButtonProps) {
     }
   };
 
+  const baseClasses = variant === 'pill'
+    ? 'flex items-center gap-1.5 h-8 px-3 bg-surface-elevated rounded-full border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-black/5'
+    : 'copy-button relative overflow-hidden p-2 rounded-lg bg-surface-elevated border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border';
+
+  if (variant === 'pill') {
+    return (
+      <button
+        type="button"
+        onClick={handleCopy}
+        className={`${baseClasses} transition-colors ${className}`}
+        title={copied ? 'Copied!' : 'Copy to clipboard'}
+      >
+        {copied ? <Check size={14} className="text-success" /> : <Copy size={14} />}
+        <span className="text-sm font-medium">Copy</span>
+      </button>
+    );
+  }
+
   return (
     <div style={{ perspective: 400 }}>
       <motion.button
@@ -74,9 +93,7 @@ export function CopyButton({ content, className = '' }: CopyButtonProps) {
           rotateY: isHovered ? rotateY : 0,
           transformStyle: 'preserve-3d',
         }}
-        className={`copy-button relative overflow-hidden p-2 rounded-lg bg-surface-elevated border border-border-subtle
-          text-text-secondary hover:text-text-primary hover:border-border
-          ${copied ? 'copied' : ''} ${className}`}
+        className={`${baseClasses} ${copied ? 'copied' : ''} ${className}`}
         title={copied ? 'Copied!' : 'Copy to clipboard'}
       >
         {/* Holographic foil layer */}

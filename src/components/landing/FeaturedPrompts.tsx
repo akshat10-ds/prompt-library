@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { prompts } from '@/data';
 import { featuredPrompts } from '@/data/featured';
-import { FeaturedPromptCard } from './FeaturedPromptCard';
+import { PromptListItem } from '@/components/prompts/PromptListItem';
 
 export function FeaturedPrompts() {
   const featured = featuredPrompts
@@ -30,11 +30,11 @@ export function FeaturedPrompts() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.slice(0, 6).map((item, index) => (
-            <FeaturedPromptCard
+            <PromptListItem
               key={item.id}
               prompt={item.prompt!}
-              highlight={item.highlight}
               index={index}
+              showActions={false}
             />
           ))}
         </div>

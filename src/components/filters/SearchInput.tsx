@@ -132,7 +132,7 @@ export function SearchInput({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-surface-elevated transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-text-tertiary hover:text-text-primary hover:bg-black/10 transition-colors"
           >
             <X size={16} />
           </motion.button>
@@ -204,7 +204,7 @@ export function SearchInput({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.05 }}
-                          className="block p-3 rounded-lg bg-background border border-border-subtle hover:border-border hover:bg-surface-elevated transition-all"
+                          className="block p-3 rounded-lg bg-background border border-border-subtle hover:border-border hover:bg-black/5 transition-all"
                         >
                           <div className="text-sm font-medium text-text-primary">{prompt.title}</div>
                           <div className="text-xs text-text-tertiary line-clamp-1">{prompt.description}</div>
@@ -244,7 +244,7 @@ export function SearchInput({
                       className={`flex items-center gap-3 p-3 rounded-lg border transition-all text-left ${
                         isSelected
                           ? 'bg-text-primary text-background border-text-primary'
-                          : 'bg-background border-border-subtle hover:border-border hover:bg-surface-elevated'
+                          : 'bg-background border-border-subtle hover:border-border hover:bg-black/5'
                       }`}
                     >
                       <Icon size={18} className={isSelected ? 'text-background' : 'text-text-secondary'} />

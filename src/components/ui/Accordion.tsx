@@ -18,7 +18,7 @@ export function Accordion({ title, children, defaultOpen = false }: AccordionPro
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-6 py-4 bg-surface hover:bg-surface-elevated transition-colors text-left"
+        className="w-full flex items-center justify-between px-6 py-4 bg-surface hover:bg-black/5 transition-colors text-left"
       >
         <span className="font-serif text-lg text-text-primary">{title}</span>
         <motion.div

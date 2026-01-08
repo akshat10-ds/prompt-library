@@ -92,8 +92,13 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <Providers>
+          <a href="#main-content" className="skip-to-content">
+            Skip to content
+          </a>
           <div className="gradient-mesh" />
-          {children}
+          <main id="main-content">
+            {children}
+          </main>
           <div className="noise-overlay" />
         </Providers>
         <Analytics />

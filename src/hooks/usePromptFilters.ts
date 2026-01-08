@@ -2,9 +2,14 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useMemo, useCallback } from 'react';
-import { prompts, filterPrompts, CategoryId, ToolId, OutputType, DifficultyLevel, SortOption } from '@/data';
+import { prompts, CategoryId, SortOption } from '@/data';
+
+export type ViewMode = 'grid' | 'list';
+
+import { useSavedContext } from '@/contexts/SavedContext';
 
 export function usePromptFilters() {
+  const { savedIds } = useSavedContext();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -14,18 +19,38 @@ export function usePromptFilters() {
     () => ({
       search: searchParams.get('q') ?? '',
       category: (searchParams.get('category') ?? 'all') as CategoryId | 'all',
-      tags: searchParams.getAll('tag'),
-      tools: searchParams.getAll('tool') as ToolId[],
-      outputType: (searchParams.get('outputType') ?? 'all') as OutputType | 'all',
-      difficulty: (searchParams.get('difficulty') ?? 'all') as DifficultyLevel | 'all',
-      sort: (searchParams.get('sort') ?? 'newest') as SortOption,
+      sort: (searchParams.get('sort') ?? 'most-upvoted') as SortOption,
+      savedOnly: searchParams.get('saved') === 'true',
+      view: (searchParams.get('view') ?? 'list') as ViewMode,
     }),
     [searchParams]
   );
 
   // Compute filtered and sorted prompts
   const filteredPrompts = useMemo(() => {
-    const filtered = filterPrompts(prompts, filters);
+    let filtered = prompts.filter((prompt) => {
+      // Filter by search
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        const matchesSearch =
+          prompt.title.toLowerCase().includes(searchLower) ||
+          prompt.description.toLowerCase().includes(searchLower) ||
+          prompt.content.toLowerCase().includes(searchLower) ||
+          prompt.tags?.some((tag) => tag.toLowerCase().includes(searchLower));
+        if (!matchesSearch) return false;
+      }
+
+      // Filter by category
+      if (filters.category !== 'all' && prompt.category !== filters.category) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (filters.savedOnly) {
+      filtered = filtered.filter(p => savedIds.includes(p.id));
+    }
 
     // Sort the filtered prompts
     return [...filtered].sort((a, b) => {
@@ -37,14 +62,12 @@ export function usePromptFilters() {
         case 'alphabetical':
           return a.title.localeCompare(b.title);
         case 'most-upvoted':
-          // For now, sort by title since we don't have vote counts in the data
-          // This will be replaced with actual vote counts from context
           return a.title.localeCompare(b.title);
         default:
           return 0;
       }
     });
-  }, [filters]);
+  }, [filters, savedIds]);
 
   // Compute counts per category
   const counts = useMemo(() => {
@@ -66,15 +89,12 @@ export function usePromptFilters() {
 
   // Update URL params helper
   const updateParams = useCallback(
-    (updates: Record<string, string | string[] | null>) => {
+    (updates: Record<string, string | null>) => {
       const params = new URLSearchParams(searchParams.toString());
 
       Object.entries(updates).forEach(([key, value]) => {
         params.delete(key);
-        if (value === null) return;
-        if (Array.isArray(value)) {
-          value.forEach((v) => params.append(key, v));
-        } else if (value) {
+        if (value) {
           params.set(key, value);
         }
       });
@@ -94,31 +114,15 @@ export function usePromptFilters() {
     setSearch: (q: string) => updateParams({ q: q || null }),
     setCategory: (c: CategoryId | 'all') =>
       updateParams({ category: c === 'all' ? null : c }),
-    toggleTag: (tag: string) => {
-      const newTags = filters.tags.includes(tag)
-        ? filters.tags.filter((t) => t !== tag)
-        : [...filters.tags, tag];
-      updateParams({ tag: newTags.length ? newTags : null });
-    },
-    toggleTool: (tool: ToolId) => {
-      const newTools = filters.tools.includes(tool)
-        ? filters.tools.filter((t) => t !== tool)
-        : [...filters.tools, tool];
-      updateParams({ tool: newTools.length ? newTools : null });
-    },
-    setOutputType: (type: OutputType | 'all') =>
-      updateParams({ outputType: type === 'all' ? null : type }),
-    setDifficulty: (diff: DifficultyLevel | 'all') =>
-      updateParams({ difficulty: diff === 'all' ? null : diff }),
     setSort: (sort: SortOption) =>
-      updateParams({ sort: sort === 'newest' ? null : sort }),
+      updateParams({ sort: sort === 'most-upvoted' ? null : sort }),
+    toggleSavedOnly: () =>
+      updateParams({ saved: filters.savedOnly ? null : 'true' }),
+    setView: (view: ViewMode) =>
+      updateParams({ view: view === 'list' ? null : view }),
     clearFilters: () => router.push(pathname),
     hasActiveFilters:
       filters.search !== '' ||
-      filters.category !== 'all' ||
-      filters.tags.length > 0 ||
-      filters.tools.length > 0 ||
-      filters.outputType !== 'all' ||
-      filters.difficulty !== 'all',
+      filters.category !== 'all',
   };
 }

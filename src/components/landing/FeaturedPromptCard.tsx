@@ -61,7 +61,7 @@ export function FeaturedPromptCard({ prompt, index }: FeaturedPromptCardProps) {
       <Link href={`/prompt/${prompt.id}`} className="block">
         <motion.article
           ref={cardRef}
-          className="prompt-card p-6 h-full group relative overflow-hidden"
+          className={`prompt-card p-6 h-full group relative overflow-hidden card-category-${prompt.category}`}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}

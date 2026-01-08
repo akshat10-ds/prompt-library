@@ -52,11 +52,6 @@ export function filterPrompts(
       if (prompt.outputType !== filters.outputType) return false;
     }
 
-    // Difficulty filter
-    if (filters.difficulty && filters.difficulty !== 'all') {
-      if (prompt.difficulty !== filters.difficulty) return false;
-    }
-
     return true;
   });
 }

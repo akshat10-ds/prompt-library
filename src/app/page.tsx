@@ -1,7 +1,4 @@
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { LandingHeader, HeroSection, FeaturedPrompts, CategoryCards } from '@/components/landing';
-import { prompts } from '@/data';
+import { LandingHeader, HeroSection, FeaturedPrompts, CategoryCards, RolePicker } from '@/components/landing';
 
 export default function Home() {
   return (
@@ -20,13 +17,7 @@ export default function Home() {
           <p className="text-text-secondary mb-4">
             Ready to explore more?
           </p>
-          <Link
-            href="/library"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-text-primary text-background rounded-lg font-medium hover:bg-text-secondary transition-colors"
-          >
-            Browse All {prompts.length} Prompts
-            <ArrowRight size={18} />
-          </Link>
+          <RolePicker />
         </section>
       </main>
 

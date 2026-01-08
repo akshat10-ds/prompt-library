@@ -158,7 +158,7 @@ export function FontSwitcher({ openUp = false }: FontSwitcherProps) {
                   className={`w-full text-left p-3 rounded-lg transition-colors flex items-start gap-3 ${
                     activePairing === pairing.id
                       ? 'bg-text-primary/5'
-                      : 'hover:bg-surface'
+                      : 'hover:bg-black/10'
                   }`}
                 >
                   <div className="flex-1">

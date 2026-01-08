@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, MessageSquare } from 'lucide-react';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
-import { FontSwitcher } from '@/components/ui/FontSwitcher';
+import { MessageSquare } from 'lucide-react';
+import { SettingsDropdown } from '@/components/ui/SettingsDropdown';
 import { Logo } from '@/components/ui/Logo';
 
 export function LandingHeader() {
@@ -14,15 +13,7 @@ export function LandingHeader() {
           <Logo className="h-6 w-auto" />
         </Link>
 
-        <div className="flex items-center gap-3">
-          <Link
-            href="/library?search=open"
-            className="flex items-center gap-2 px-3 py-2 text-text-secondary hover:text-text-primary transition-colors"
-          >
-            <Search size={18} />
-            <span className="hidden sm:inline">Search Library</span>
-          </Link>
-
+        <div className="flex items-center gap-2">
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSdSzX7tXoW783cCJVeSHthjHJQf8NFrKJzxu7WBo6TraLh3sg/viewform?usp=dialog"
             target="_blank"
@@ -34,8 +25,7 @@ export function LandingHeader() {
             <span className="hidden sm:inline">Feedback</span>
           </a>
 
-          <FontSwitcher />
-          <ThemeToggle />
+          <SettingsDropdown />
         </div>
       </div>
     </header>

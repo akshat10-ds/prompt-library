@@ -1,19 +1,20 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { usePromptFilters } from '@/hooks/usePromptFilters';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { PromptGrid } from '@/components/prompts/PromptGrid';
+import { PromptList } from '@/components/prompts/PromptList';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { SubmitPromptModal } from '@/components/prompts/SubmitPromptModal';
-import { Plus } from 'lucide-react';
+import { Plus, Bookmark } from 'lucide-react';
 import { SortOption } from '@/data';
+import { useVoteContext } from '@/contexts/VoteContext';
 
 const sortOptions: { value: SortOption; label: string }[] = [
+  { value: 'most-upvoted', label: 'Most Upvoted' },
   { value: 'newest', label: 'Newest First' },
   { value: 'oldest', label: 'Oldest First' },
-  { value: 'most-upvoted', label: 'Most Upvoted' },
   { value: 'alphabetical', label: 'Alphabetical' },
 ];
 
@@ -24,23 +25,30 @@ function PromptLibrary() {
   const {
     search,
     category,
-    tags,
-    tools,
-    outputType,
-    difficulty,
     sort,
+    savedOnly,
     filteredPrompts,
     counts,
     setSearch,
     setCategory,
-    toggleTag,
-    toggleTool,
-    setOutputType,
-    setDifficulty,
     setSort,
+    toggleSavedOnly,
     clearFilters,
     hasActiveFilters,
   } = usePromptFilters();
+
+  const { getVoteCount, isLoading: isVotesLoading } = useVoteContext();
+
+  // Final filtered & sorted prompts with actual vote counts
+  const finalPrompts = useMemo(() => {
+    if (sort !== 'most-upvoted' || isVotesLoading) return filteredPrompts;
+
+    return [...filteredPrompts].sort((a, b) => {
+      const votesA = getVoteCount(a.id);
+      const votesB = getVoteCount(b.id);
+      return votesB - votesA || a.title.localeCompare(b.title);
+    });
+  }, [filteredPrompts, sort, getVoteCount, isVotesLoading]);
 
   return (
     <MainLayout
@@ -48,45 +56,39 @@ function PromptLibrary() {
       onSearchChange={setSearch}
       activeCategory={category}
       onCategoryChange={setCategory}
-      selectedTags={tags}
-      onTagToggle={toggleTag}
-      selectedTools={tools}
-      onToggleTool={toggleTool}
-      selectedOutputType={outputType}
-      onOutputTypeChange={setOutputType}
-      selectedDifficulty={difficulty}
-      onDifficultyChange={setDifficulty}
       counts={counts}
       autoOpenSearch={autoOpenSearch}
     >
-      {/* Header row with count, sort, and submit button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-text-primary">
-            {filteredPrompts.length === 1
+      {/* Toolbar Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="font-serif text-lg text-text-primary">
+            {finalPrompts.length === 1
               ? '1 prompt'
-              : `${filteredPrompts.length} prompts`}
+              : `${finalPrompts.length} prompts`}
           </span>
-          {hasActiveFilters && (
-            <>
-              <span className="text-text-tertiary">·</span>
-              <button
-                type="button"
-                onClick={clearFilters}
-                className="text-sm text-accent hover:underline"
-              >
-                Clear filters
-              </button>
-            </>
-          )}
-          <span className="text-text-tertiary mx-2">|</span>
-          {/* Sort Dropdown */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-text-tertiary">Sort by:</span>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleSavedOnly}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${savedOnly
+                ? 'bg-text-primary text-background border-text-primary shadow-sm'
+                : 'bg-surface text-text-secondary border-border-subtle hover:border-border hover:shadow-sm'
+                }`}
+            >
+              <Bookmark size={12} fill={savedOnly ? "currentColor" : "none"} />
+              Saved
+            </button>
+
+            {/* Sort Dropdown */}
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortOption)}
-              className="px-2 py-1 text-sm bg-transparent text-text-primary focus:outline-none cursor-pointer font-medium"
+              className="pl-3 pr-8 py-1.5 text-xs bg-surface text-text-secondary border border-border-subtle rounded-full focus:outline-none focus:border-border cursor-pointer hover:border-border hover:shadow-sm transition-all appearance-none bg-no-repeat"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                backgroundPosition: 'right 0.75rem center',
+              }}
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -94,26 +96,38 @@ function PromptLibrary() {
                 </option>
               ))}
             </select>
+
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="text-xs text-text-tertiary hover:text-text-primary transition-colors ml-1"
+              >
+                Clear
+              </button>
+            )}
           </div>
         </div>
+
         {/* Submit Button */}
         <button
           type="button"
           onClick={() => setIsSubmitModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-text-primary text-background rounded-lg font-medium text-sm hover:bg-text-secondary transition-colors"
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-text-primary text-background rounded-full font-medium text-sm hover:shadow-lg hover:scale-[1.02] transition-all active:scale-95"
         >
-          <Plus size={18} />
-          <span className="hidden sm:inline">Submit Prompt</span>
-          <span className="sm:hidden">Submit</span>
+          <Plus size={16} />
+          <span>Submit</span>
         </button>
       </div>
 
-      {/* Prompts grid or empty state */}
-      {filteredPrompts.length > 0 ? (
-        <PromptGrid prompts={filteredPrompts} onTagClick={toggleTag} />
-      ) : (
-        <EmptyState onClearFilters={clearFilters} />
-      )}
+      {/* Prompts list or empty state */}
+      <div>
+        {finalPrompts.length > 0 ? (
+          <PromptList prompts={finalPrompts} />
+        ) : (
+          <EmptyState onClearFilters={clearFilters} />
+        )}
+      </div>
 
       {/* Submit Modal */}
       <SubmitPromptModal

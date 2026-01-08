@@ -88,7 +88,7 @@ export default function PromptDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { vote, getVoteCount, getUserVote } = useVoteContext();
-  const { isSaved, toggleSaved } = useSavedContext();
+  const { isSaved, toggleSave } = useSavedContext();
   const promptId = params.id as string;
   const [copied, setCopied] = useState(false);
 
@@ -179,7 +179,7 @@ export default function PromptDetailPage() {
 
               {/* Bookmark */}
               <button
-                onClick={() => toggleSaved(prompt.id)}
+                onClick={() => toggleSave(prompt.id)}
                 className={`flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-150 ${
                   saved
                     ? 'text-amber-500 bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800'

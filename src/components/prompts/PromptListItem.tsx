@@ -55,7 +55,7 @@ interface PromptListItemProps {
 export function PromptListItem({ prompt, index = 0, showActions = true }: PromptListItemProps) {
   const { vote, getVoteCount, getUserVote } = useVoteContext();
   const { getCommentCount } = useCommentCountContext();
-  const { isSaved, toggleSaved } = useSavedContext();
+  const { isSaved, toggleSave } = useSavedContext();
   const commentCount = getCommentCount(prompt.id);
   const voteCount = getVoteCount(prompt.id);
   const userVote = getUserVote(prompt.id);
@@ -240,7 +240,7 @@ export function PromptListItem({ prompt, index = 0, showActions = true }: Prompt
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  toggleSaved(prompt.id);
+                  toggleSave(prompt.id);
                 }}
                 className={`flex items-center gap-1.5 h-8 px-3 bg-surface-elevated rounded-full border border-border-subtle transition-all duration-200 ${
                   saved

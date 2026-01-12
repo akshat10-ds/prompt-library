@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Providers } from '@/components/Providers';
 import './globals.css';
 
@@ -102,6 +103,7 @@ export default function RootLayout({
           <div className="noise-overlay" />
         </Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
